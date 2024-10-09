@@ -1,17 +1,15 @@
 import UIKit
 
 final class TabBarController: UITabBarController {
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        let imagesListViewController = storyboard.instantiateViewController(
-            withIdentifier: "ImagesListViewController"
-        )
+        let trackersViewController = TrackersViewController()
+        trackersViewController.tabBarItem = UITabBarItem(title: "Трекеры", image: UIImage(named: "tab_trackers"), selectedImage: nil)
+        let statsViewController = StatsViewController()
+        statsViewController.tabBarItem = UITabBarItem(title: "Статистика", image: UIImage(named: "tab_stats"), selectedImage: nil)
         
-        let profileViewController = ProfileViewController()
-        profileViewController.tabBarItem = UITabBarItem(title: "", image: UIImage(named: "tab_profile_active"), selectedImage: nil)
-        
-        self.viewControllers = [imagesListViewController, profileViewController]
+        self.viewControllers = [trackersViewController, statsViewController]
+        tabBar.backgroundColor = .white
     }
 }
