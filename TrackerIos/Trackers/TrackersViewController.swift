@@ -2,7 +2,7 @@ import UIKit
 
 class TrackersViewController: UIViewController {
     
-    @IBOutlet weak var addTrackerButton: UIButton!
+    @IBOutlet weak var addTrackerButton: UIBarButtonItem!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var searchInput: UISearchBar!
     @IBOutlet weak var datePicker: UIDatePicker!
@@ -12,48 +12,31 @@ class TrackersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        setupAddTrackerButton()
-        setupDatePicker()
+        navigationController?.navigationBar.isHidden = false
+        setupNavigationItems()
         setupTitle()
         setupSearchInput()
         setupThumbnail()
         
     }
     
-    private func setupAddTrackerButton() {
-        let addTrackerButton = UIButton.systemButton(
-            with: UIImage(named: "add_tracker_icon")!,
+    private func setupNavigationItems() {
+        let addButton = UIBarButtonItem(
+            image: UIImage(named: "add_tracker_icon"),
+            style: .plain,
             target: self,
             action: nil
         )
-        addTrackerButton.tintColor = UIColor(named: "Black")
-        addTrackerButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(addTrackerButton)
-        NSLayoutConstraint.activate([
-            addTrackerButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 6),
-            addTrackerButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0)
-        ])
-        addTrackerButton.accessibilityIdentifier = "addTrackerButton"
-        self.addTrackerButton = addTrackerButton
-    }
-    
-    private func setupDatePicker() {
+        addButton.tintColor = UIColor(named: "Black")
+        navigationItem.leftBarButtonItem = addButton
+        
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .compact
-        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        let datePickerItem = UIBarButtonItem(customView: datePicker)
+        navigationItem.rightBarButtonItem = datePickerItem
         
-        let dateLabel = UILabel()
-        dateLabel.textColor = .black
-        dateLabel.font = UIFont.systemFont(ofSize: 17)
-        dateLabel.textAlignment = .right
-        
-        view.addSubview(datePicker)
-        view.addSubview(dateLabel)
-        NSLayoutConstraint.activate([
-            datePicker.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            datePicker.centerYAnchor.constraint(equalTo: addTrackerButton.centerYAnchor)
-        ])
+        self.addTrackerButton = addButton
         self.datePicker = datePicker
     }
     
@@ -66,7 +49,7 @@ class TrackersViewController: UIViewController {
         view.addSubview(titleLabel)
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            titleLabel.topAnchor.constraint(equalTo: addTrackerButton.bottomAnchor, constant: 8)
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8)
         ])
         self.titleLabel = titleLabel
     }
@@ -77,8 +60,8 @@ class TrackersViewController: UIViewController {
         searchInput.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(searchInput)
         NSLayoutConstraint.activate([
-            searchInput.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            searchInput.trailingAnchor.constraint(equalTo: datePicker.trailingAnchor),
+            searchInput.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+            searchInput.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
             searchInput.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             searchInput.heightAnchor.constraint(equalToConstant: 36)
         ])
