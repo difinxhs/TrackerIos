@@ -2,18 +2,22 @@ import UIKit
 
 class TrackersViewController: UIViewController {
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     @IBOutlet weak var addTrackerButton: UIBarButtonItem!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var searchInput: UISearchBar!
     @IBOutlet weak var datePicker: UIDatePicker!
     private var thumbnailView: UIView?
     
-    var categories: [TrackerCategory]
-    var completedTrackers: [TrackerRecord]
+    var categories: [TrackerCategory] = []
+    var completedTrackers: [TrackerRecord] = []
+        
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+        
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
     
     
     override func viewDidLoad() {
