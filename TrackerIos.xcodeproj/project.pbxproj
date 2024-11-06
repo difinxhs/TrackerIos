@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1518D57A2CDBEFBD00E9189A /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D5792CDBEFB700E9189A /* Tracker.swift */; };
+		1518D57C2CDBF03B00E9189A /* TrackerCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D57B2CDBF03100E9189A /* TrackerCategory.swift */; };
+		1518D57E2CDBF08000E9189A /* TrackerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D57D2CDBF06E00E9189A /* TrackerRecord.swift */; };
 		15B2D0202CB7283D004986A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15B2D0112CB7283D004986A7 /* LaunchScreen.storyboard */; };
 		15B2D0212CB7283D004986A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15B2D0182CB7283D004986A7 /* Assets.xcassets */; };
 		15B2D0242CB7283D004986A7 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B2D0132CB7283D004986A7 /* TabBarController.swift */; };
@@ -35,6 +38,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1518D5792CDBEFB700E9189A /* Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
+		1518D57B2CDBF03100E9189A /* TrackerCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategory.swift; sourceTree = "<group>"; };
+		1518D57D2CDBF06E00E9189A /* TrackerRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecord.swift; sourceTree = "<group>"; };
 		15B2D0102CB7283D004986A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		15B2D0132CB7283D004986A7 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		15B2D0152CB7283D004986A7 /* TrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
@@ -87,6 +93,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1518D5782CDBEFAE00E9189A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1518D57D2CDBF06E00E9189A /* TrackerRecord.swift */,
+				1518D57B2CDBF03100E9189A /* TrackerCategory.swift */,
+				1518D5792CDBEFB700E9189A /* Tracker.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		15B2D0122CB7283D004986A7 /* LaunchScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +134,7 @@
 				15B2D0142CB7283D004986A7 /* TabBar */,
 				15B2D0162CB7283D004986A7 /* Trackers */,
 				15B2D0292CB72842004986A7 /* Stats */,
+				1518D5782CDBEFAE00E9189A /* Models */,
 				15B2D0172CB7283D004986A7 /* AppDelegate.swift */,
 				15B2D0182CB7283D004986A7 /* Assets.xcassets */,
 				15B2D0192CB7283D004986A7 /* Info.plist */,
@@ -300,10 +317,13 @@
 			files = (
 				15B2D0242CB7283D004986A7 /* TabBarController.swift in Sources */,
 				15B2D0252CB7283D004986A7 /* TrackersViewController.swift in Sources */,
+				1518D57C2CDBF03B00E9189A /* TrackerCategory.swift in Sources */,
 				15B2D0262CB7283D004986A7 /* AppDelegate.swift in Sources */,
 				15B2D0272CB7283D004986A7 /* SceneDelegate.swift in Sources */,
+				1518D57E2CDBF08000E9189A /* TrackerRecord.swift in Sources */,
 				15B2D02B2CB7284F004986A7 /* StatsViewController.swift in Sources */,
 				15B2D0282CB7283D004986A7 /* TrackerIos.xcdatamodeld in Sources */,
+				1518D57A2CDBEFBD00E9189A /* Tracker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
