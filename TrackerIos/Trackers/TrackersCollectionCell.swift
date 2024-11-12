@@ -3,8 +3,7 @@ import UIKit
 final class TrackersCollectionCell: UICollectionViewCell {
     private let emoji: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(named: "White")
-        view.backgroundColor?.withAlphaComponent(0.3)
+        view.backgroundColor = UIColor(named: "White")?.withAlphaComponent(0.3)
         view.layer.cornerRadius = 12
         view.clipsToBounds = true
         
@@ -29,22 +28,21 @@ final class TrackersCollectionCell: UICollectionViewCell {
     
     private let counterLabel: UILabel = {
         let label = UILabel()
-        label.text = "1 день"
+        label.text = "0 дней"
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         label.textColor = UIColor(named: "Black")
         return label
     } ()
     
-    private let plusButton = UIButton.systemButton(
-        with: UIImage(systemName: "plus")!,
-        target: TrackersCollectionCell.self,
-        action: nil
-        
-    )
+    private let plusButton = UIButton(type: .system)
+    private var isCompleted: Bool = false
+    private var completionCount: Int = 0
+    private var currentDate: Date = Date()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
+        setupButtonAction()
     }
     
     required init?(coder: NSCoder) {
@@ -59,8 +57,10 @@ final class TrackersCollectionCell: UICollectionViewCell {
         addSubview(titleLabel)
         addSubview(counterLabel)
         addSubview(plusButton)
-        plusButton.backgroundColor = UIColor.green
+        
+        plusButton.backgroundColor = UIColor(named: "Color selection 5")
         plusButton.layer.cornerRadius = 17
+        plusButton.setImage(UIImage(systemName: "plus"), for: .normal)
         
         emoji.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -68,21 +68,17 @@ final class TrackersCollectionCell: UICollectionViewCell {
         plusButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            // emoji
             emoji.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 12),
             emoji.topAnchor.constraint(equalTo: self.topAnchor, constant: 12),
             emoji.widthAnchor.constraint(equalToConstant: 24),
             emoji.heightAnchor.constraint(equalToConstant: 24),
             
-            // titleLabel
             titleLabel.leadingAnchor.constraint(equalTo: emoji.leadingAnchor),
             titleLabel.topAnchor.constraint(equalTo: emoji.bottomAnchor, constant: 8),
             
-            // counterLabel
             counterLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 12),
             counterLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -12),
             
-            // plusButton
             plusButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12),
             plusButton.centerYAnchor.constraint(equalTo: counterLabel.centerYAnchor),
             plusButton.widthAnchor.constraint(equalToConstant: 34),
@@ -90,4 +86,37 @@ final class TrackersCollectionCell: UICollectionViewCell {
         ])
     }
     
+    private func setupButtonAction() {
+        plusButton.addTarget(self, action: #selector(didTapPlusButton), for: .touchUpInside)
+    }
+    
+    @objc private func didTapPlusButton() {
+        if isCompleted {
+            isCompleted = false
+            completionCount -= 1
+            plusButton.setImage(UIImage(systemName: "plus"), for: .normal)
+        } else {
+            isCompleted = true
+            completionCount += 1
+            plusButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
+        }
+        
+        updateCounterLabel()
+    }
+    
+    private func updateCounterLabel() {
+        counterLabel.text = "\(completionCount) " + (completionCount == 1 ? "день" : "дней")
+    }
+    
+    func configure(with date: Date, initialCompletionCount: Int) {
+        currentDate = date
+        completionCount = initialCompletionCount
+        updateCounterLabel()
+        
+        if Calendar.current.isDateInToday(currentDate) && isCompleted {
+            plusButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
+        } else {
+            plusButton.setImage(UIImage(systemName: "plus"), for: .normal)
+        }
+    }
 }
