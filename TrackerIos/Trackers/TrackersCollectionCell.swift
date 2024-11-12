@@ -69,24 +69,24 @@ final class TrackersCollectionCell: UICollectionViewCell {
         
         NSLayoutConstraint.activate([
             // emoji
-            emoji.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
-            emoji.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
+            emoji.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 12),
+            emoji.topAnchor.constraint(equalTo: self.topAnchor, constant: 12),
             emoji.widthAnchor.constraint(equalToConstant: 24),
             emoji.heightAnchor.constraint(equalToConstant: 24),
             
             // titleLabel
-            titleLabel.leadingAnchor.constraint(equalTo: emoji.trailingAnchor, constant: 8),
-            titleLabel.centerYAnchor.constraint(equalTo: emoji.centerYAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: emoji.leadingAnchor),
+            titleLabel.topAnchor.constraint(equalTo: emoji.bottomAnchor, constant: 8),
             
             // counterLabel
-            counterLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
-            counterLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
+            counterLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 12),
+            counterLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -12),
             
             // plusButton
-            plusButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8),
-            plusButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
-            plusButton.widthAnchor.constraint(equalToConstant: 32),
-            plusButton.heightAnchor.constraint(equalToConstant: 32)
+            plusButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12),
+            plusButton.centerYAnchor.constraint(equalTo: counterLabel.centerYAnchor),
+            plusButton.widthAnchor.constraint(equalToConstant: 34),
+            plusButton.heightAnchor.constraint(equalToConstant: 34)
         ])
     }
     
