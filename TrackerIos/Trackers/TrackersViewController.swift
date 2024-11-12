@@ -31,6 +31,14 @@ class TrackersViewController: UIViewController {
         
     }
     
+    @objc func datePickerValueChanged(_ sender: UIDatePicker) {
+        let selectedDate = sender.date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy" // Формат даты
+        let formattedDate = dateFormatter.string(from: selectedDate)
+        print("Выбранная дата: \(formattedDate)")
+    }
+    
     //MARK: Layout
     
     private func setupNavigationItems() {
@@ -48,10 +56,12 @@ class TrackersViewController: UIViewController {
         datePicker.preferredDatePickerStyle = .compact
         let datePickerItem = UIBarButtonItem(customView: datePicker)
         navigationItem.rightBarButtonItem = datePickerItem
+        datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
         
         self.addTrackerButton = addButton
         self.datePicker = datePicker
     }
+    
     
     private func setupTitle() {
         let titleLabel = UILabel()
