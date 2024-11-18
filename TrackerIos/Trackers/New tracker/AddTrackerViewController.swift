@@ -4,7 +4,6 @@ class AddTrackerViewController: UIViewController {
     
     // MARK: - Private Properties
     
-    private let titleLabel = UILabel()
     private let regularTrackerButton = UIButton(type: .system)
     private let irregularTrackerButton = UIButton(type: .system)
     private let stackView = UIStackView()
@@ -16,7 +15,6 @@ class AddTrackerViewController: UIViewController {
         view.backgroundColor = UIColor(named: "White")
         
         
-        setupTitleLabel()
         setupStackView()
         setupRegularTrackerButton()
         setupirregularTrackerButton()
@@ -25,13 +23,13 @@ class AddTrackerViewController: UIViewController {
     
     // MARK: - Private Methods
     
-    private func setupTitleLabel(){
-        view.addSubview(titleLabel)
-        
-        titleLabel.text = "Создание трекера"
-        titleLabel.font = .systemFont(ofSize: 16, weight: .medium)
-        titleLabel.textColor = UIColor(named: "Black")
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+    private func setupNav() {
+        title = "Создание трекера"
+        navigationItem.hidesBackButton = true
+        navigationController?.navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium),
+            NSAttributedString.Key.foregroundColor: UIColor(named: "Black") as Any
+        ]
     }
     
     private func setupRegularTrackerButton(){
@@ -76,8 +74,6 @@ class AddTrackerViewController: UIViewController {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
             
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
@@ -93,16 +89,14 @@ class AddTrackerViewController: UIViewController {
     
     @objc private func regularTrackerButtonDidTap() {
         print("regularTrackerButtonDidTap")
-        let vc = NewTrackerVC(trackerType: .regular)
-        vc.modalPresentationStyle = .formSheet
-        present(vc, animated: true)
+        let viewController = NewTrackerVC(trackerType: .regular)
+        navigationController?.pushViewController(viewController, animated: true)
     }
     
     @objc private func irregularTrackerButtonDidTap() {
         print("irregularTrackerButtonDidTap")
-        let vc = NewTrackerVC(trackerType: .irregular)
-        vc.modalPresentationStyle = .formSheet
-        present(vc, animated: true)
+        let viewController = NewTrackerVC(trackerType: .irregular)
+        navigationController?.pushViewController(viewController, animated: true)
     }
     
     
