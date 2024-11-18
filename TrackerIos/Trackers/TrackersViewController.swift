@@ -44,6 +44,7 @@ class TrackersViewController: UIViewController {
         setupNavigationItems()
         setupTitle()
         setupSearchInput()
+        setupCollectionView()
         setupConstraints()
         
     }
@@ -72,7 +73,7 @@ class TrackersViewController: UIViewController {
         categories.append(category2)
     }
     
-    private func setupCollectionVeiw() {
+    private func setupCollectionView() {
         view.addSubview(collectionView)
         register()
         
@@ -87,7 +88,7 @@ class TrackersViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.topAnchor.constraint(equalTo: searchInput.bottomAnchor, constant: 16),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
@@ -100,9 +101,8 @@ class TrackersViewController: UIViewController {
         collectionView.register(TrackersCategoryHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
     }
     
+    
     //MARK: Layout
-    
-    
     
     private func thumbnailConstraints() {
         
