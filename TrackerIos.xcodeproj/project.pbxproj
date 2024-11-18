@@ -15,6 +15,7 @@
 		1518D5842CEBBB7E00E9189A /* WeekDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D5832CEBBB7800E9189A /* WeekDay.swift */; };
 		1518D5872CEBBD9C00E9189A /* GeometricParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D5862CEBBD8F00E9189A /* GeometricParams.swift */; };
 		1518D5892CEBC23500E9189A /* TrackersCategoryHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D5882CEBC22800E9189A /* TrackersCategoryHeader.swift */; };
+		1518D58C2CEBC69C00E9189A /* AddTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D58B2CEBC69400E9189A /* AddTrackerViewController.swift */; };
 		15B2D0202CB7283D004986A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15B2D0112CB7283D004986A7 /* LaunchScreen.storyboard */; };
 		15B2D0212CB7283D004986A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15B2D0182CB7283D004986A7 /* Assets.xcassets */; };
 		15B2D0242CB7283D004986A7 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B2D0132CB7283D004986A7 /* TabBarController.swift */; };
@@ -51,6 +52,7 @@
 		1518D5832CEBBB7800E9189A /* WeekDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDay.swift; sourceTree = "<group>"; };
 		1518D5862CEBBD8F00E9189A /* GeometricParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometricParams.swift; sourceTree = "<group>"; };
 		1518D5882CEBC22800E9189A /* TrackersCategoryHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersCategoryHeader.swift; sourceTree = "<group>"; };
+		1518D58B2CEBC69400E9189A /* AddTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTrackerViewController.swift; sourceTree = "<group>"; };
 		15B2D0102CB7283D004986A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		15B2D0132CB7283D004986A7 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		15B2D0152CB7283D004986A7 /* TrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
@@ -122,6 +124,14 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		1518D58A2CEBC68700E9189A /* New tracker */ = {
+			isa = PBXGroup;
+			children = (
+				1518D58B2CEBC69400E9189A /* AddTrackerViewController.swift */,
+			);
+			path = "New tracker";
+			sourceTree = "<group>";
+		};
 		15B2D0122CB7283D004986A7 /* LaunchScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -141,6 +151,7 @@
 		15B2D0162CB7283D004986A7 /* Trackers */ = {
 			isa = PBXGroup;
 			children = (
+				1518D58A2CEBC68700E9189A /* New tracker */,
 				1518D5882CEBC22800E9189A /* TrackersCategoryHeader.swift */,
 				1518D5812CEBB78700E9189A /* ThumbnailStateView.swift */,
 				1518D57F2CE3C72100E9189A /* TrackersCollectionCell.swift */,
@@ -338,6 +349,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1518D58C2CEBC69C00E9189A /* AddTrackerViewController.swift in Sources */,
 				15B2D0242CB7283D004986A7 /* TabBarController.swift in Sources */,
 				15B2D0252CB7283D004986A7 /* TrackersViewController.swift in Sources */,
 				1518D57C2CDBF03B00E9189A /* TrackerCategory.swift in Sources */,

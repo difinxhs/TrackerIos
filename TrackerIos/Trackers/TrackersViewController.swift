@@ -49,6 +49,15 @@ class TrackersViewController: UIViewController {
         
     }
     
+    //MARK: Actions
+    
+    @objc private func addTrackerButtonDidTap() {
+        print("add button tapped!")
+        let vc = AddTrackerViewController()
+        vc.modalPresentationStyle = .formSheet
+        present(vc, animated: true)
+    }
+    
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
         let selectedDate = sender.date
         let dateFormatter = DateFormatter()
@@ -117,7 +126,7 @@ class TrackersViewController: UIViewController {
             image: UIImage(named: "add_tracker_icon"),
             style: .plain,
             target: self,
-            action: nil
+            action: #selector(addTrackerButtonDidTap)
         )
         addButton.tintColor = UIColor(named: "Black")
         navigationItem.leftBarButtonItem = addButton
@@ -235,8 +244,8 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     }
     
     // header
-       func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-              return CGSize(width: collectionView.frame.width, height: 19)
-          }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 19)
+    }
 }
 
