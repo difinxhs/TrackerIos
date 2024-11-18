@@ -4,8 +4,8 @@ class NewTrackerVC: UIViewController {
     
     // MARK: - Private Properties
     
-    private let cancelButton = UIButton(type: .system)
-    private let createButton = UIButton(type: .system)
+    private let cancelButton = ActionButton(type: .system)
+    private let createButton = ActionButton(type: .system)
     private let buttonStackView = UIStackView()
     
     private let scheduleButton = UIButton(type: .system)
@@ -56,8 +56,6 @@ class NewTrackerVC: UIViewController {
         cancelButton.setTitle("Отменить", for: .normal)
         cancelButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         cancelButton.setTitleColor(UIColor(named: "Red"), for: .normal)
-        cancelButton.layer.masksToBounds = true
-        cancelButton.layer.cornerRadius = 16
         cancelButton.backgroundColor = UIColor(named: "White")
         cancelButton.layer.borderWidth = 1
         cancelButton.layer.borderColor = UIColor(named: "Red")?.cgColor
@@ -74,10 +72,6 @@ class NewTrackerVC: UIViewController {
     private func setupCreateButton() {
         createButton.setTitle("Сохранить", for: .normal)
         createButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
-        createButton.setTitleColor(UIColor(named: "White"), for: .normal)
-        createButton.layer.masksToBounds = true
-        createButton.layer.cornerRadius = 16
-        createButton.backgroundColor = UIColor(named: "Black")
         
         createButton.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
         
@@ -134,10 +128,10 @@ class NewTrackerVC: UIViewController {
         switch trackerType {
         case .regular:
             title = "Новая Привычка"
-            scheduleButton.isHidden = false
+            //            scheduleButton.isHidden = false
         case .irregular:
             title = "Нерегулярное событие"
-            scheduleButton.isHidden = true
+            //            scheduleButton.isHidden = true
         }
     }
     
@@ -200,16 +194,21 @@ extension NewTrackerVC: UITableViewDataSource, UITableViewDelegate {
     
     // Укажите количество секций (по умолчанию 1)
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return 2
     }
     
-    // Укажите количество строк в секции
+    // Укажите количество ячеек в секции
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        if section == 0 {
+            return 1
+        } else {return 2}
     }
     // Настройка ячейки
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.selectionStyle = .none
+        cell.backgroundColor = UIColor(named: "Background")
+        
         cell.textLabel?.text = "Ячейка \(indexPath.row + 1)" // настройте текст для каждой ячейки
         return cell
     }
@@ -217,6 +216,13 @@ extension NewTrackerVC: UITableViewDataSource, UITableViewDelegate {
     // Обработка нажатий на ячейку (опционально)
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        print("Нажата ячейка \(indexPath.row + 1)")
+        if indexPath.section == 1 && indexPath.row == 1 {
+            let viewController = ScheduleViewController()
+            navigationController?.pushViewController(viewController, animated: true)
+        }
+    }
+    // высота ячейки
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        75.0
     }
 }

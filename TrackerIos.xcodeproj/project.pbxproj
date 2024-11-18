@@ -17,6 +17,8 @@
 		1518D5892CEBC23500E9189A /* TrackersCategoryHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D5882CEBC22800E9189A /* TrackersCategoryHeader.swift */; };
 		1518D58C2CEBC69C00E9189A /* AddTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D58B2CEBC69400E9189A /* AddTrackerViewController.swift */; };
 		1518D58E2CEBCA4C00E9189A /* NewTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D58D2CEBCA3C00E9189A /* NewTrackerViewController.swift */; };
+		1518D5902CEBD0AF00E9189A /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D58F2CEBD0A100E9189A /* ActionButton.swift */; };
+		1518D5932CEBD11400E9189A /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D5922CEBD10A00E9189A /* ScheduleViewController.swift */; };
 		15B2D0202CB7283D004986A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15B2D0112CB7283D004986A7 /* LaunchScreen.storyboard */; };
 		15B2D0212CB7283D004986A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15B2D0182CB7283D004986A7 /* Assets.xcassets */; };
 		15B2D0242CB7283D004986A7 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B2D0132CB7283D004986A7 /* TabBarController.swift */; };
@@ -55,6 +57,8 @@
 		1518D5882CEBC22800E9189A /* TrackersCategoryHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersCategoryHeader.swift; sourceTree = "<group>"; };
 		1518D58B2CEBC69400E9189A /* AddTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTrackerViewController.swift; sourceTree = "<group>"; };
 		1518D58D2CEBCA3C00E9189A /* NewTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTrackerViewController.swift; sourceTree = "<group>"; };
+		1518D58F2CEBD0A100E9189A /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
+		1518D5922CEBD10A00E9189A /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		15B2D0102CB7283D004986A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		15B2D0132CB7283D004986A7 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		15B2D0152CB7283D004986A7 /* TrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
@@ -121,6 +125,7 @@
 		1518D5852CEBBD8300E9189A /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				1518D58F2CEBD0A100E9189A /* ActionButton.swift */,
 				1518D5862CEBBD8F00E9189A /* GeometricParams.swift */,
 			);
 			path = Helpers;
@@ -133,6 +138,14 @@
 				1518D58B2CEBC69400E9189A /* AddTrackerViewController.swift */,
 			);
 			path = "New tracker";
+			sourceTree = "<group>";
+		};
+		1518D5912CEBD0F800E9189A /* Schedule */ = {
+			isa = PBXGroup;
+			children = (
+				1518D5922CEBD10A00E9189A /* ScheduleViewController.swift */,
+			);
+			path = Schedule;
 			sourceTree = "<group>";
 		};
 		15B2D0122CB7283D004986A7 /* LaunchScreen */ = {
@@ -170,6 +183,7 @@
 				15B2D0122CB7283D004986A7 /* LaunchScreen */,
 				15B2D0142CB7283D004986A7 /* TabBar */,
 				15B2D0162CB7283D004986A7 /* Trackers */,
+				1518D5912CEBD0F800E9189A /* Schedule */,
 				15B2D0292CB72842004986A7 /* Stats */,
 				1518D5782CDBEFAE00E9189A /* Models */,
 				15B2D0172CB7283D004986A7 /* AppDelegate.swift */,
@@ -355,10 +369,12 @@
 				1518D58C2CEBC69C00E9189A /* AddTrackerViewController.swift in Sources */,
 				15B2D0242CB7283D004986A7 /* TabBarController.swift in Sources */,
 				15B2D0252CB7283D004986A7 /* TrackersViewController.swift in Sources */,
+				1518D5932CEBD11400E9189A /* ScheduleViewController.swift in Sources */,
 				1518D57C2CDBF03B00E9189A /* TrackerCategory.swift in Sources */,
 				15B2D0262CB7283D004986A7 /* AppDelegate.swift in Sources */,
 				15B2D0272CB7283D004986A7 /* SceneDelegate.swift in Sources */,
 				1518D5822CEBB79900E9189A /* ThumbnailStateView.swift in Sources */,
+				1518D5902CEBD0AF00E9189A /* ActionButton.swift in Sources */,
 				1518D5842CEBBB7E00E9189A /* WeekDay.swift in Sources */,
 				1518D57E2CDBF08000E9189A /* TrackerRecord.swift in Sources */,
 				15B2D02B2CB7284F004986A7 /* StatsViewController.swift in Sources */,
