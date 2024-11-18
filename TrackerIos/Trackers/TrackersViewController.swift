@@ -32,37 +32,24 @@ class TrackersViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         navigationController?.navigationBar.isHidden = false
-        setupCollectionView()
         setupNavigationItems()
         setupTitle()
         setupSearchInput()
-        setupThumbnail()
+        view.addSubview(thumbnailStateView)
+        thumbnailConstraints()
         
     }
     
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
         let selectedDate = sender.date
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.yyyy" // Формат даты
+        dateFormatter.dateFormat = "dd.MM.yyyy"
         let formattedDate = dateFormatter.string(from: selectedDate)
         print("Выбранная дата: \(formattedDate)")
     }
     
     //MARK: Layout
     
-    private func setupCollectionView() {
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(collectionView)
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-        ])
-
-        collectionView.dataSource = self
-        collectionView.delegate = self
-    }
     
     private func setupNavigationItems() {
         let addButton = UIBarButtonItem(
@@ -76,10 +63,15 @@ class TrackersViewController: UIViewController {
         
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
+        datePicker.locale = Locale(identifier: "ru_RU")
         datePicker.preferredDatePickerStyle = .compact
         let datePickerItem = UIBarButtonItem(customView: datePicker)
         navigationItem.rightBarButtonItem = datePickerItem
         datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
+        
+        NSLayoutConstraint.activate([
+                    datePicker.widthAnchor.constraint(equalToConstant: 100)
+                ])
         
         self.addTrackerButton = addButton
         self.datePicker = datePicker
@@ -114,84 +106,19 @@ class TrackersViewController: UIViewController {
         self.searchInput = searchInput
     }
     
-    private func setupThumbnail() {
-        let thumbnailView = UIView()
-        thumbnailView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.spacing = 8
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "star_thumbnail")
-        imageView.tintColor = .gray
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let label = UILabel()
-        label.text = "Что будем отслеживать?"
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.textColor = UIColor(named: "Black")
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        stackView.addArrangedSubview(imageView)
-        stackView.addArrangedSubview(label)
-        
-        thumbnailView.addSubview(stackView)
-        
-        view.addSubview(thumbnailView)
-        
-        NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalToConstant: 80),
-            imageView.heightAnchor.constraint(equalToConstant: 80),
-            
-            stackView.centerXAnchor.constraint(equalTo: thumbnailView.centerXAnchor),
-            stackView.centerYAnchor.constraint(equalTo: thumbnailView.centerYAnchor),
-            
-            thumbnailView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            thumbnailView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            thumbnailView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            thumbnailView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
-        ])
-        
-        self.thumbnailView = thumbnailView
-    }
-}
-
-extension TrackersViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return categories.count
-    }
+    private let thumbnailStateView: UIView = {
+        let view = ThumbnailStateView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    } ()
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TrackerCell", for: indexPath) as! TrackersCollectionCell
-        
-        return cell
-    }
+    private func thumbnailConstraints() {
+
+            NSLayoutConstraint.activate([
+                thumbnailStateView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+                thumbnailStateView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
+            ])
+        }
 }
 
-extension TrackersViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-    }
-}
 
-extension TrackersViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
-        return CGSize(width: collectionView.bounds.width / 2, height: 50)
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        minimumInteritemSpacingForSectionAt section: Int
-    ) -> CGFloat {
-        return 0
-    }
-}
