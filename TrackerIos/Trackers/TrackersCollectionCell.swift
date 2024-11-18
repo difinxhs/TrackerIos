@@ -2,199 +2,147 @@ import UIKit
 
 final class TrackersCollectionCell: UICollectionViewCell {
     
-    private let cardView: UIView = {
-            let view = UIView()
-            view.layer.cornerRadius = 16
-            view.clipsToBounds = true
-            return view
-        }()
-        
-        private let emoji: UIView = {
-            let view = UIView()
-            view.backgroundColor = .white.withAlphaComponent(0.3)
-            view.layer.cornerRadius = 12
-            view.clipsToBounds = true
-            
-            let emojiLabel = UILabel()
-            emojiLabel.text = "❤️"
-            emojiLabel.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview(emojiLabel)
-            NSLayoutConstraint.activate([
-                emojiLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                emojiLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-            ])
-            return view
-        }()
-        
-        private let titleLabel: UILabel = {
-            let label = UILabel()
-            label.text = "Tracker"
-            label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-            label.textColor = .white
-            label.numberOfLines = 0
-            return label
-        }()
-        
-        private let counterLabel: UILabel = {
-            let label = UILabel()
-            label.text = "0 дней"
-            label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-            label.textColor = .black
-            return label
-        }()
-        
-        private let statsStack: UIStackView = {
-            let stack = UIStackView()
-            stack.axis = .horizontal
-            stack.spacing = 8
-            stack.alignment = .center
-            return stack
-        }()
-    
-    private let plusButton = UIButton(type: .system)
-    private var isCompleted: Bool = false
-    private var completionCount: Int = 0
-    private var currentDate: Date = Date()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupView()
-        setupButtonAction()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func prepareForReuse() {
-            super.prepareForReuse()
-            titleLabel.text = nil
-            counterLabel.text = "0 дней"
-            isCompleted = false
-            completionCount = 0
-            plusButton.setImage(UIImage(systemName: "plus"), for: .normal)
-        }
-    
-    func configure(with title: String) {
-        titleLabel.text = title
-        titleLabel.numberOfLines = 0 // Разрешаем перенос строк
-        titleLabel.lineBreakMode = .byWordWrapping
-        
-        // Обновляем цвет ячейки случайным образом из предопределенных цветов
-        let colors = [
-            UIColor(named: "Color selection 1"),
-            UIColor(named: "Color selection 2"),
-            UIColor(named: "Color selection 3"),
-            UIColor(named: "Color selection 4"),
-            UIColor(named: "Color selection 5"),
-            UIColor(named: "Color selection 6"),
-            UIColor(named: "Color selection 7"),
-            UIColor(named: "Color selection 8"),
-            UIColor(named: "Color selection 9"),
-            UIColor(named: "Color selection 10"),
-            UIColor(named: "Color selection 11"),
-            UIColor(named: "Color selection 12"),
-            UIColor(named: "Color selection 13"),
-            UIColor(named: "Color selection 14"),
-            UIColor(named: "Color selection 15"),
-            UIColor(named: "Color selection 16"),
-            UIColor(named: "Color selection 17"),
-            UIColor(named: "Color selection 18")
-        ].compactMap { $0 }
-        
-        self.backgroundColor = colors.randomElement() ?? .gray
-        
-        // Настраиваем кнопку
-        plusButton.tintColor = .white
-        plusButton.setImage(UIImage(systemName: "plus"), for: .normal)
-    }
-    
-    private func setupView() {
-            // Добавляем основную карточку
-            contentView.addSubview(cardView)
-            cardView.translatesAutoresizingMaskIntoConstraints = false
-            
-            // Добавляем элементы в карточку
-            cardView.addSubview(emoji)
-            cardView.addSubview(titleLabel)
-            
-            // Добавляем нижний стек с счетчиком и кнопкой
-            contentView.addSubview(statsStack)
-            statsStack.addArrangedSubview(counterLabel)
-            statsStack.addArrangedSubview(plusButton)
-            
-            // Настраиваем кнопку
-            plusButton.backgroundColor = UIColor(named: "Color selection 5")
-            plusButton.layer.cornerRadius = 17
-            plusButton.tintColor = .white
-            plusButton.setImage(UIImage(systemName: "plus"), for: .normal)
-            
-            // Устанавливаем констрейнты
-            NSLayoutConstraint.activate([
-                // Карточка
-                cardView.topAnchor.constraint(equalTo: contentView.topAnchor),
-                cardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                cardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                cardView.heightAnchor.constraint(equalToConstant: 90),
-                
-                // Эмодзи
-                emoji.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 12),
-                emoji.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 12),
-                emoji.widthAnchor.constraint(equalToConstant: 24),
-                emoji.heightAnchor.constraint(equalToConstant: 24),
-                
-                // Заголовок
-                titleLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 12),
-                titleLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -12),
-                titleLabel.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -12),
-                
-                // Стек с счетчиком и кнопкой
-                statsStack.topAnchor.constraint(equalTo: cardView.bottomAnchor, constant: 8),
-                statsStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
-                statsStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
-                
-                // Кнопка плюс
-                plusButton.widthAnchor.constraint(equalToConstant: 34),
-                plusButton.heightAnchor.constraint(equalToConstant: 34)
-            ])
-            
-            // Делаем все view translatesAutoresizingMaskIntoConstraints = false
-            [emoji, titleLabel, statsStack, plusButton].forEach { view in
-                view.translatesAutoresizingMaskIntoConstraints = false
-            }
-        }
-    
-    private func setupButtonAction() {
-        plusButton.addTarget(self, action: #selector(didTapPlusButton), for: .touchUpInside)
-    }
-    
-    @objc private func didTapPlusButton() {
-        if isCompleted {
-            isCompleted = false
-            completionCount -= 1
-            plusButton.setImage(UIImage(systemName: "plus"), for: .normal)
-        } else {
-            isCompleted = true
-            completionCount += 1
-            plusButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
-        }
-        
-        updateCounterLabel()
-    }
-    
-    private func updateCounterLabel() {
-        counterLabel.text = "\(completionCount) " + (completionCount == 1 ? "день" : "дней")
-    }
-    
-    func configure(with date: Date, initialCompletionCount: Int) {
-        currentDate = date
-        completionCount = initialCompletionCount
-        updateCounterLabel()
-        
-        if Calendar.current.isDateInToday(currentDate) && isCompleted {
-            plusButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
-        } else {
-            plusButton.setImage(UIImage(systemName: "plus"), for: .normal)
-        }
-    }
+    // MARK: - private
+
+       private let emojiLabel = UILabel()
+       private let titleLabel = UILabel()
+       private let counterLabel = UILabel()
+       private let completeButton = UIButton()
+
+       private let cardView = UIView()
+       private let circleView = UIView()
+
+       // MARK: - init
+
+       override init(frame: CGRect) {
+           super.init(frame: frame)
+
+           setupCircleVeiw()
+           setupCardVeiw()
+           setupEmojiLabel()
+           setupTitleLabel()
+           setupCounterLabel()
+           setupCompleteButton()
+           setupConstraints()
+
+       }
+
+       required init?(coder: NSCoder) {
+           fatalError("init(coder:) has not been implemented")
+       }
+
+       func config(with tracker: Tracker) {
+           cardView.backgroundColor = tracker.color
+           completeButton.backgroundColor = tracker.color
+           titleLabel.text = tracker.name
+           emojiLabel.text = tracker.emoji
+           counterLabel.text = "1 день"
+       }
+
+
+       // MARK: - private
+
+       private func setupCircleVeiw() {
+
+           circleView.backgroundColor = UIColor(named: "White")?.withAlphaComponent(0.3)
+           circleView.layer.cornerRadius = 12
+           circleView.layer.masksToBounds = true
+           circleView.translatesAutoresizingMaskIntoConstraints = false
+       }
+
+       private func setupCardVeiw() {
+           addSubview(cardView)
+           cardView.backgroundColor = UIColor(named: "Blue")
+           cardView.layer.cornerRadius = 16
+           cardView.layer.masksToBounds = true
+           cardView.layer.borderWidth = 1
+           cardView.layer.borderColor = UIColor.gray.withAlphaComponent(0.3).cgColor
+           cardView.translatesAutoresizingMaskIntoConstraints = false
+
+           cardView.addSubview(circleView)
+           cardView.addSubview(titleLabel)
+           cardView.addSubview(emojiLabel)
+       }
+
+       // Настройка emojiLabel
+       private func setupEmojiLabel() {
+           emojiLabel.text = "😊"
+           emojiLabel.font = .systemFont(ofSize: 16, weight: .medium)
+           emojiLabel.textAlignment = .center
+           emojiLabel.translatesAutoresizingMaskIntoConstraints = false
+       }
+
+       // Настройка titleLabel
+       private func setupTitleLabel() {
+           titleLabel.text = "Кошка заслонила камеру на созвоне"
+           titleLabel.font = .systemFont(ofSize: 12, weight: .medium)
+           titleLabel.textColor = UIColor(named: "White")
+           titleLabel.textAlignment = .left
+           titleLabel.numberOfLines = 0
+           titleLabel.translatesAutoresizingMaskIntoConstraints = false
+       }
+
+       // Настройка counterLabel
+       private func setupCounterLabel() {
+           addSubview(counterLabel)
+
+           counterLabel.text = "5 дней"
+           counterLabel.font = .systemFont(ofSize: 12, weight: .medium)
+           counterLabel.textColor = UIColor(named: "Black")
+           counterLabel.textAlignment = .left
+           counterLabel.translatesAutoresizingMaskIntoConstraints = false
+       }
+
+       // Настройка completeButton
+       private func setupCompleteButton() {
+           addSubview(completeButton)
+
+           completeButton.setImage(UIImage(systemName: "plus"), for: .normal)
+           completeButton.tintColor = UIColor(named: "White")
+           completeButton.backgroundColor = UIColor(named: "Blue")
+           completeButton.layer.masksToBounds = true
+           completeButton.layer.cornerRadius = 17
+           completeButton.addTarget(self, action: #selector(self.completeButtonDidTap), for: .touchUpInside)
+           completeButton.translatesAutoresizingMaskIntoConstraints = false
+
+       }
+
+       private func setupConstraints() {
+           NSLayoutConstraint.activate([
+               cardView.leadingAnchor.constraint(equalTo: leadingAnchor),
+               cardView.trailingAnchor.constraint(equalTo: trailingAnchor),
+               cardView.topAnchor.constraint(equalTo: topAnchor),
+               cardView.heightAnchor.constraint(equalToConstant: 90),
+
+               circleView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 12),
+               circleView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 12),
+               circleView.widthAnchor.constraint(equalToConstant: 24),
+               circleView.heightAnchor.constraint(equalToConstant: 24),
+
+               titleLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 12),
+               titleLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -12),
+               titleLabel.topAnchor.constraint(lessThanOrEqualTo: cardView.bottomAnchor, constant: -12),
+               titleLabel.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -12),
+
+               emojiLabel.centerXAnchor.constraint(equalTo: circleView.centerXAnchor),
+               emojiLabel.centerYAnchor.constraint(equalTo: circleView.centerYAnchor),
+
+               completeButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
+               completeButton.topAnchor.constraint(equalTo: cardView.bottomAnchor, constant: 8),
+               completeButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
+               completeButton.widthAnchor.constraint(equalToConstant: 34),
+               completeButton.heightAnchor.constraint(equalToConstant: 34),
+
+               counterLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
+               counterLabel.trailingAnchor.constraint(equalTo: completeButton.leadingAnchor, constant: -8),
+               counterLabel.topAnchor.constraint(equalTo: cardView.bottomAnchor, constant: 16),
+               counterLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -24)
+           ])
+       }
+
+       // MARK: - Actions
+       @objc
+       private func completeButtonDidTap() {
+           print("Complete button tapped")
+       }
 }
