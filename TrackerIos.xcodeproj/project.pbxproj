@@ -16,6 +16,7 @@
 		1518D5872CEBBD9C00E9189A /* GeometricParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D5862CEBBD8F00E9189A /* GeometricParams.swift */; };
 		1518D5892CEBC23500E9189A /* TrackersCategoryHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D5882CEBC22800E9189A /* TrackersCategoryHeader.swift */; };
 		1518D58C2CEBC69C00E9189A /* AddTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D58B2CEBC69400E9189A /* AddTrackerViewController.swift */; };
+		1518D58E2CEBCA4C00E9189A /* NewTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D58D2CEBCA3C00E9189A /* NewTrackerViewController.swift */; };
 		15B2D0202CB7283D004986A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15B2D0112CB7283D004986A7 /* LaunchScreen.storyboard */; };
 		15B2D0212CB7283D004986A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15B2D0182CB7283D004986A7 /* Assets.xcassets */; };
 		15B2D0242CB7283D004986A7 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B2D0132CB7283D004986A7 /* TabBarController.swift */; };
@@ -53,6 +54,7 @@
 		1518D5862CEBBD8F00E9189A /* GeometricParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometricParams.swift; sourceTree = "<group>"; };
 		1518D5882CEBC22800E9189A /* TrackersCategoryHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersCategoryHeader.swift; sourceTree = "<group>"; };
 		1518D58B2CEBC69400E9189A /* AddTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTrackerViewController.swift; sourceTree = "<group>"; };
+		1518D58D2CEBCA3C00E9189A /* NewTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTrackerViewController.swift; sourceTree = "<group>"; };
 		15B2D0102CB7283D004986A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		15B2D0132CB7283D004986A7 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		15B2D0152CB7283D004986A7 /* TrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 		1518D58A2CEBC68700E9189A /* New tracker */ = {
 			isa = PBXGroup;
 			children = (
+				1518D58D2CEBCA3C00E9189A /* NewTrackerViewController.swift */,
 				1518D58B2CEBC69400E9189A /* AddTrackerViewController.swift */,
 			);
 			path = "New tracker";
@@ -363,6 +366,7 @@
 				15B2D0282CB7283D004986A7 /* TrackerIos.xcdatamodeld in Sources */,
 				1518D5802CE3C73400E9189A /* TrackersCollectionCell.swift in Sources */,
 				1518D57A2CDBEFBD00E9189A /* Tracker.swift in Sources */,
+				1518D58E2CEBCA4C00E9189A /* NewTrackerViewController.swift in Sources */,
 				1518D5872CEBBD9C00E9189A /* GeometricParams.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

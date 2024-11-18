@@ -2,11 +2,14 @@ import UIKit
 
 class AddTrackerViewController: UIViewController {
     
+    // MARK: - Private Properties
+    
     private let titleLabel = UILabel()
     private let regularTrackerButton = UIButton(type: .system)
     private let irregularTrackerButton = UIButton(type: .system)
     private let stackView = UIStackView()
     
+    // MARK: - View Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +22,8 @@ class AddTrackerViewController: UIViewController {
         setupirregularTrackerButton()
         setupConstraints()
     }
+    
+    // MARK: - Private Methods
     
     private func setupTitleLabel(){
         view.addSubview(titleLabel)
@@ -35,6 +40,7 @@ class AddTrackerViewController: UIViewController {
         regularTrackerButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         regularTrackerButton.setTitleColor(UIColor(named: "White"), for: .normal)
         regularTrackerButton.backgroundColor = UIColor(named: "Black")
+        regularTrackerButton.layer.masksToBounds = true
         regularTrackerButton.layer.cornerRadius = 16
         
         regularTrackerButton.addTarget(self, action: #selector(regularTrackerButtonDidTap), for: .touchUpInside)
@@ -48,6 +54,7 @@ class AddTrackerViewController: UIViewController {
         irregularTrackerButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         irregularTrackerButton.setTitleColor(UIColor(named: "White"), for: .normal)
         irregularTrackerButton.backgroundColor = UIColor(named: "Black")
+        irregularTrackerButton.layer.masksToBounds = true
         irregularTrackerButton.layer.cornerRadius = 16
         
         irregularTrackerButton.addTarget(self, action: #selector(irregularTrackerButtonDidTap), for: .touchUpInside)
@@ -86,10 +93,16 @@ class AddTrackerViewController: UIViewController {
     
     @objc private func regularTrackerButtonDidTap() {
         print("regularTrackerButtonDidTap")
+        let vc = NewTrackerVC(trackerType: .regular)
+        vc.modalPresentationStyle = .formSheet
+        present(vc, animated: true)
     }
     
     @objc private func irregularTrackerButtonDidTap() {
         print("irregularTrackerButtonDidTap")
+        let vc = NewTrackerVC(trackerType: .irregular)
+        vc.modalPresentationStyle = .formSheet
+        present(vc, animated: true)
     }
     
     
