@@ -6,7 +6,6 @@ class TrackersViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var searchInput: UISearchBar!
     @IBOutlet weak var datePicker: UIDatePicker!
-    private var thumbnailView: UIView?
     
     var categories: [TrackerCategory] = []
     var completedTrackers: [TrackerRecord] = []
@@ -50,6 +49,19 @@ class TrackersViewController: UIViewController {
     
     //MARK: Layout
     
+    private let thumbnailStateView: UIView = {
+        let view = ThumbnailStateView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    } ()
+    
+    private func thumbnailConstraints() {
+
+            NSLayoutConstraint.activate([
+                thumbnailStateView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+                thumbnailStateView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
+            ])
+        }
     
     private func setupNavigationItems() {
         let addButton = UIBarButtonItem(
@@ -106,19 +118,7 @@ class TrackersViewController: UIViewController {
         self.searchInput = searchInput
     }
     
-    private let thumbnailStateView: UIView = {
-        let view = ThumbnailStateView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    } ()
     
-    private func thumbnailConstraints() {
-
-            NSLayoutConstraint.activate([
-                thumbnailStateView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-                thumbnailStateView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
-            ])
-        }
 }
 
 

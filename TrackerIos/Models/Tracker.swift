@@ -6,14 +6,12 @@ struct Tracker {
     let color: UIColor
     let emoji: String
     let schedule: [WeekDay]
-}
-
-enum WeekDay: Int, CaseIterable {
-    case monday = 1
-    case tuesday
-    case wednesday
-    case thursday
-    case friday
-    case saturday
-    case sunday
+    
+    init(name: String, color: UIColor, emoji: String, schedule: [WeekDay]) {
+            self.id = UUID()
+            self.name = name
+            self.color = color
+            self.emoji = emoji
+            self.schedule = schedule
+        }
 }
