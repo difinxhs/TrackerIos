@@ -2,6 +2,12 @@ import UIKit
 
 final class ActionButton: UIButton {
     
+    override var isEnabled: Bool {
+        didSet {
+            setBackgroundColor()
+        }
+    }
+    
     override init(frame: CGRect) {
         super .init(frame: frame)
         setupStyle()
@@ -17,5 +23,9 @@ final class ActionButton: UIButton {
         self.layer.masksToBounds = true
         self.layer.cornerRadius = 16
         self.backgroundColor = UIColor(named: "Black")
+    }
+    
+    private func setBackgroundColor() {
+        self.backgroundColor = isEnabled ? UIColor(named: "Black") : UIColor(named: "Gray")
     }
 }

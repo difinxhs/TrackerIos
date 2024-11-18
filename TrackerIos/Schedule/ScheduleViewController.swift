@@ -15,6 +15,7 @@ final class ScheduleViewController: UIViewController {
 
         setupNav()
         setupDoneButton()
+        setupTableView()
     }
 
     // MARK: - Private Methods
@@ -44,6 +45,33 @@ final class ScheduleViewController: UIViewController {
             doneButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
         ])
     }
+    
+    //TableView
+
+       private func setupTableView() {
+           view.addSubview(scheduleTableView)
+
+           scheduleTableView.delegate = self
+           scheduleTableView.dataSource = self
+
+           // Регистрация кастомной ячейки
+           scheduleTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+           scheduleTableView.register(ScheduleCell.self, forCellReuseIdentifier: "ScheduleCell")
+
+           scheduleTableView.separatorStyle = .none
+           scheduleTableView.layer.cornerRadius = 16 // Закругляем углы
+           scheduleTableView.layer.masksToBounds = true
+
+           scheduleTableView.translatesAutoresizingMaskIntoConstraints = false
+
+           NSLayoutConstraint.activate([
+               scheduleTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+               scheduleTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+               scheduleTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+               scheduleTableView.bottomAnchor.constraint(equalTo: doneButton.topAnchor, constant: -39)
+           ])
+       }
+
 
     // MARK: - Actions
 
@@ -53,3 +81,35 @@ final class ScheduleViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
 }
+
+extension ScheduleViewController: UITableViewDelegate, UITableViewDataSource {
+
+    // Количество строк в секции
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 7
+    }
+    // Настройка ячейки
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleCell", for: indexPath) as? ScheduleCell else {return UITableViewCell()}
+
+        // данные для ячейки
+        let weekday = WeekDay.allCases[indexPath.row]
+        let isOn = false //состояние переключателя по умолчанию
+        cell.configure(with: weekday, isOn: isOn) { isOn in
+            // Обработка переключения, например, обновление состояния
+            print("\(weekday.name) is \(isOn ? "on" : "off")")
+        }
+
+        tableView.applyCornerRadius(to: cell, at: indexPath)
+        tableView.addSeparatorIfNeeded(to: cell, at: indexPath)
+
+        return cell
+    }
+
+    // MARK: - UITableViewDelegate
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75 // Высота ячейки
+    }
+}
+
