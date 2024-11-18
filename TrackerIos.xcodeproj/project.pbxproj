@@ -21,8 +21,9 @@
 		1518D5932CEBD11400E9189A /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D5922CEBD10A00E9189A /* ScheduleViewController.swift */; };
 		1518D5952CEBD3F800E9189A /* AddSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D5942CEBD3EA00E9189A /* AddSeparator.swift */; };
 		1518D5972CEBD45000E9189A /* ApplyCornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D5962CEBD44200E9189A /* ApplyCornerRadius.swift */; };
-		1518D5992CEBD46500E9189A /* BaseTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D5982CEBD45F00E9189A /* BaseTableView.swift */; };
 		1518D59B2CEBD4B800E9189A /* ScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D59A2CEBD4AF00E9189A /* ScheduleCell.swift */; };
+		1518D59E2CEBD65100E9189A /* LinkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D59D2CEBD64A00E9189A /* LinkCell.swift */; };
+		1518D5A02CEBD68800E9189A /* TextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D59F2CEBD68300E9189A /* TextCell.swift */; };
 		15B2D0202CB7283D004986A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15B2D0112CB7283D004986A7 /* LaunchScreen.storyboard */; };
 		15B2D0212CB7283D004986A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15B2D0182CB7283D004986A7 /* Assets.xcassets */; };
 		15B2D0242CB7283D004986A7 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B2D0132CB7283D004986A7 /* TabBarController.swift */; };
@@ -65,8 +66,9 @@
 		1518D5922CEBD10A00E9189A /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		1518D5942CEBD3EA00E9189A /* AddSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSeparator.swift; sourceTree = "<group>"; };
 		1518D5962CEBD44200E9189A /* ApplyCornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyCornerRadius.swift; sourceTree = "<group>"; };
-		1518D5982CEBD45F00E9189A /* BaseTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableView.swift; sourceTree = "<group>"; };
 		1518D59A2CEBD4AF00E9189A /* ScheduleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCell.swift; sourceTree = "<group>"; };
+		1518D59D2CEBD64A00E9189A /* LinkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkCell.swift; sourceTree = "<group>"; };
+		1518D59F2CEBD68300E9189A /* TextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCell.swift; sourceTree = "<group>"; };
 		15B2D0102CB7283D004986A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		15B2D0132CB7283D004986A7 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		15B2D0152CB7283D004986A7 /* TrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
@@ -133,7 +135,6 @@
 		1518D5852CEBBD8300E9189A /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				1518D5982CEBD45F00E9189A /* BaseTableView.swift */,
 				1518D5962CEBD44200E9189A /* ApplyCornerRadius.swift */,
 				1518D5942CEBD3EA00E9189A /* AddSeparator.swift */,
 				1518D58F2CEBD0A100E9189A /* ActionButton.swift */,
@@ -145,6 +146,7 @@
 		1518D58A2CEBC68700E9189A /* New tracker */ = {
 			isa = PBXGroup;
 			children = (
+				1518D59C2CEBD63D00E9189A /* Cells */,
 				1518D58D2CEBCA3C00E9189A /* NewTrackerViewController.swift */,
 				1518D58B2CEBC69400E9189A /* AddTrackerViewController.swift */,
 			);
@@ -158,6 +160,15 @@
 				1518D5922CEBD10A00E9189A /* ScheduleViewController.swift */,
 			);
 			path = Schedule;
+			sourceTree = "<group>";
+		};
+		1518D59C2CEBD63D00E9189A /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				1518D59F2CEBD68300E9189A /* TextCell.swift */,
+				1518D59D2CEBD64A00E9189A /* LinkCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		15B2D0122CB7283D004986A7 /* LaunchScreen */ = {
@@ -379,13 +390,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				1518D58C2CEBC69C00E9189A /* AddTrackerViewController.swift in Sources */,
-				1518D5992CEBD46500E9189A /* BaseTableView.swift in Sources */,
 				15B2D0242CB7283D004986A7 /* TabBarController.swift in Sources */,
 				15B2D0252CB7283D004986A7 /* TrackersViewController.swift in Sources */,
 				1518D5932CEBD11400E9189A /* ScheduleViewController.swift in Sources */,
+				1518D5A02CEBD68800E9189A /* TextCell.swift in Sources */,
 				1518D57C2CDBF03B00E9189A /* TrackerCategory.swift in Sources */,
 				1518D5972CEBD45000E9189A /* ApplyCornerRadius.swift in Sources */,
 				15B2D0262CB7283D004986A7 /* AppDelegate.swift in Sources */,
+				1518D59E2CEBD65100E9189A /* LinkCell.swift in Sources */,
 				15B2D0272CB7283D004986A7 /* SceneDelegate.swift in Sources */,
 				1518D5822CEBB79900E9189A /* ThumbnailStateView.swift in Sources */,
 				1518D5902CEBD0AF00E9189A /* ActionButton.swift in Sources */,
