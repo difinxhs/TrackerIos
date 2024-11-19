@@ -18,10 +18,10 @@ final class NewTrackerVC: UIViewController {
     
     // MARK: - Init
     
-    // Определяем тип экрана
+    // тип экрана
     enum TrackerType {
-        case regular // Привычка
-        case irregular // Нерегулярное событие
+        case regular
+        case irregular
     }
     
     private var trackerType: TrackerType
@@ -143,7 +143,7 @@ final class NewTrackerVC: UIViewController {
         tableView.dataSource = self
         
         tableView.separatorStyle = .none
-        tableView.layer.cornerRadius = 16 // Закругляем углы
+        tableView.layer.cornerRadius = 16
         tableView.layer.masksToBounds = true
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -202,12 +202,12 @@ final class NewTrackerVC: UIViewController {
 
 extension NewTrackerVC: UITableViewDataSource, UITableViewDelegate {
     
-    // Укажите количество секций (по умолчанию 1)
+    // количество секций (по умолчанию 1)
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
-    // Укажите количество ячеек в секции
+    // количество ячеек в секции
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch trackerType {
         case .regular:

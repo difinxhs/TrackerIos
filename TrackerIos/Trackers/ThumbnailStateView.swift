@@ -1,6 +1,6 @@
 import UIKit
 
-class ThumbnailStateView: UIView{
+final class ThumbnailStateView: UIView{
     
     private let imageView = UIImageView()
     private let label = UILabel()

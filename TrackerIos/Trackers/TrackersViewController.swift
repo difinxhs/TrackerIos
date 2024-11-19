@@ -1,6 +1,6 @@
 import UIKit
 
-class TrackersViewController: UIViewController {
+final class TrackersViewController: UIViewController {
     
     //navigation bar
     @IBOutlet weak var addTrackerButton: UIBarButtonItem!
@@ -45,7 +45,6 @@ class TrackersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-//        makeMockData()
         view.addSubview(thumbnailStateView)
         navigationController?.navigationBar.isHidden = false
         setupNavigationItems()
@@ -61,10 +60,10 @@ class TrackersViewController: UIViewController {
     //MARK: Actions
     
     @objc private func addNewTracker(_ notification: Notification) {
-              guard let tracker = notification.object as? Tracker else { return }
-              allTrackers.append(tracker)
-              update()
-          }
+        guard let tracker = notification.object as? Tracker else { return }
+        allTrackers.append(tracker)
+        update()
+    }
     
     @objc private func addTrackerButtonDidTap() {
         print("add button tapped!")
@@ -88,8 +87,8 @@ class TrackersViewController: UIViewController {
     }
     
     deinit {
-                NotificationCenter.default.removeObserver(self, name: TrackersViewController.notificationName, object: nil)
-            }
+        NotificationCenter.default.removeObserver(self, name: TrackersViewController.notificationName, object: nil)
+    }
     
     // MARK: - Private Methods
     
@@ -250,11 +249,11 @@ extension TrackersViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? TrackersCollectionCell else {return UICollectionViewCell()}
         cell.prepareForReuse()
         let tracker = categories[indexPath.section].trackers[indexPath.row]
-                        cell.config(with: tracker,
-                                    numberOfCompletions: completionsCounter[tracker.id] ?? 0,
-                                    isCompleted: completedIds.contains(tracker.id),
-                                    completionIsEnabled: currentDate <= Date())
-                        cell.delegate = self
+        cell.config(with: tracker,
+                    numberOfCompletions: completionsCounter[tracker.id] ?? 0,
+                    isCompleted: completedIds.contains(tracker.id),
+                    completionIsEnabled: currentDate <= Date())
+        cell.delegate = self
         return cell
         
     }
@@ -298,7 +297,7 @@ extension TrackersViewController: TrackersCollectionCellDelegate {
     func trackersCellDidChangeCompletion(for cell: TrackersCollectionCell, to isCompleted: Bool) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         let tracker = categories[indexPath.section].trackers[indexPath.row]
-
+        
         if isCompleted {
             completedTrackers.append(TrackerRecord(trackerId: tracker.id, date: currentDate))
             completedIds.insert(tracker.id)

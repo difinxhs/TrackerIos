@@ -82,7 +82,7 @@ final class ScheduleViewController: UIViewController {
         scheduleTableView.register(ScheduleCell.self, forCellReuseIdentifier: cellReuseID)
         
         scheduleTableView.separatorStyle = .none
-        scheduleTableView.layer.cornerRadius = 16 // Закругляем углы
+        scheduleTableView.layer.cornerRadius = 16
         scheduleTableView.layer.masksToBounds = true
         
         scheduleTableView.translatesAutoresizingMaskIntoConstraints = false

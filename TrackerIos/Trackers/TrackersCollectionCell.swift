@@ -59,24 +59,24 @@ final class TrackersCollectionCell: UICollectionViewCell {
     // MARK: - private
     
     private func configureViewState() {
-        if isCompleted {
-            completeButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
-            completeButton.backgroundColor = color.withAlphaComponent(0.3)
-        } else {
-            completeButton.setImage(UIImage(systemName: "plus"), for: .normal)
-            completeButton.backgroundColor = color
-        }
+        completeButton.setImage(UIImage(systemName: isCompleted ? "checkmark" : "plus"), for: .normal)
+        completeButton.backgroundColor = color.withAlphaComponent(isCompleted ? 0.3 : 1)
         
-        let remainder100 = numberOfCompletions % 100
-        let remainder10 = numberOfCompletions % 10
-        if remainder100 >= 11 && remainder100 <= 14 {
+        let lastDigit = numberOfCompletions % 10
+        let lastTwoDigits = numberOfCompletions % 100
+        
+        if lastTwoDigits >= 11 && lastTwoDigits <= 14 {
             counterLabel.text = "\(numberOfCompletions) дней"
-        } else if remainder10 == 1 {
-            counterLabel.text = "\(numberOfCompletions) день"
-        } else if remainder10 >= 2 && remainder10 <= 4 {
-            counterLabel.text = "\(numberOfCompletions) дня"
         } else {
-            counterLabel.text = "\(numberOfCompletions) дней"
+            
+            switch lastDigit {
+            case 1:
+                counterLabel.text = "\(numberOfCompletions) день"
+            case 2, 3, 4:
+                counterLabel.text = "\(numberOfCompletions) дня"
+            default:
+                counterLabel.text = "\(numberOfCompletions) дней"
+            }
         }
     }
     
