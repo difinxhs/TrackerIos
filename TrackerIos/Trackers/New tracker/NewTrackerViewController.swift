@@ -183,41 +183,62 @@ extension NewTrackerVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: textCellID, for: indexPath) as? TextCell else {
-                return UITableViewCell()
-            }
-            cell.onTextChange = { [weak self] text in
-                self?.name = text
-                self?.configureViewState()
-            }
-            return cell
+            return configureTextCell(for: tableView, at: indexPath)
             
         case 1:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: linkCellID, for: indexPath) as? LinkCell else {
-                return UITableViewCell()
-            }
-            if indexPath.row == 0 {
-                cell.configure(title: "Категория", caption: "Общая категория")
-            } else if indexPath.row == 1 {
-                var caption = ""
-                if let days {
-                    if days.count == WeekDay.allCases.count {
-                        caption = "Каждый день"
-                    } else {
-                        let shortNames = days.map { $0.shortName }
-                        caption = shortNames.joined(separator: ", ")
-                    }
-                }
-                cell.configure(title: "Расписание", caption: caption)
-            }
-            return cell
+            return configureLinkCell(for: tableView, at: indexPath)
             
         default:
             return UITableViewCell()
         }
     }
     
-    // Обработка нажатий на ячейку (опционально)
+    private func configureTextCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: textCellID, for: indexPath) as? TextCell else {
+            return UITableViewCell()
+        }
+        tableView.applyCornerRadius(to: cell, at: indexPath)
+        cell.onTextChange = { [weak self] text in
+            self?.name = text
+            self?.configureViewState()
+        }
+        return cell
+    }
+    
+    private func configureLinkCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: linkCellID, for: indexPath) as? LinkCell else {
+            return UITableViewCell()
+        }
+        
+        tableView.addSeparatorIfNeeded(to: cell, at: indexPath)
+        tableView.applyCornerRadius(to: cell, at: indexPath)
+        
+        let (title, caption) = getTitleAndCaptionForLinkCell(at: indexPath.row)
+        cell.configure(title: title, caption: caption)
+        
+        
+        return cell
+    }
+    
+    private func getTitleAndCaptionForLinkCell(at row: Int) -> (String, String) {
+        switch row {
+        case 0:
+            return ("Категория", "Общая категория")
+        case 1:
+            let caption: String
+            if let days, days.count == WeekDay.allCases.count {
+                caption = "Каждый день"
+            } else {
+                caption = days?.map { $0.shortName }.joined(separator: ", ") ?? ""
+            }
+            return ("Расписание", caption)
+        default:
+            return ("", "")
+        }
+    }
+    
+    
+    // Обработка нажатий на ячейку
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let viewController = ScheduleViewController(days: days)
