@@ -13,7 +13,8 @@ final class ScheduleCell: UITableViewCell {
            setupDayLabel()
            setupDaySwitch()
 
-           castom()
+           self.backgroundColor = UIColor(named: "Background")
+           self.selectionStyle = .none
 
            NSLayoutConstraint.activate([
                dayLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
@@ -50,10 +51,6 @@ final class ScheduleCell: UITableViewCell {
            daySwitch.translatesAutoresizingMaskIntoConstraints = false
        }
 
-       private func castom() {
-           self.backgroundColor = UIColor(named: "Background")
-           self.selectionStyle = .none
-       }
 
        @objc private func switchToggled(_ sender: UISwitch) {
            onToggle?(daySwitch.isOn)

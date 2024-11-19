@@ -1,7 +1,7 @@
 import UIKit
 
-enum WeekDay: CaseIterable {
-    case monday, tuesday, wednesday, thursday, friday, saturday, sunday
+enum WeekDay: Int, CaseIterable {
+    case sunday = 1, monday, tuesday, wednesday, thursday, friday, saturday
     
     var name: String {
         switch self {
@@ -20,5 +20,9 @@ enum WeekDay: CaseIterable {
         case .sunday:
             "Воскресенье"
         }
+    }
+    
+    init(date: Date) {
+        self = WeekDay(rawValue: Calendar.current.component(.weekday, from: date)) ?? .monday
     }
 }

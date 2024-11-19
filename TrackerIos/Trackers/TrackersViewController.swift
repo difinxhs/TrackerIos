@@ -10,6 +10,9 @@ class TrackersViewController: UIViewController {
     
     var categories: [TrackerCategory] = []
     var completedTrackers: [TrackerRecord] = []
+    private var currentDate: Date = Date()
+    private var completedIds: Set<UUID> = []
+    private var allTrackers: [Tracker] = []
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -40,12 +43,14 @@ class TrackersViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         makeMockData()
+        view.addSubview(thumbnailStateView)
         navigationController?.navigationBar.isHidden = false
         setupNavigationItems()
         setupTitle()
         setupSearchInput()
         setupCollectionView()
         setupConstraints()
+        collectionView.isHidden = true
         
     }
     
@@ -60,27 +65,63 @@ class TrackersViewController: UIViewController {
     }
     
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
-        let selectedDate = sender.date
+        currentDate = sender.date
+        datePicker.removeFromSuperview()
+        
+        update()
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy"
-        let formattedDate = dateFormatter.string(from: selectedDate)
-        print("Выбранная дата: \(formattedDate)")
+        let formattedDate = dateFormatter.string(from: currentDate)
+        let weekday = WeekDay(date: currentDate)
+        print("Выбранная дата: \(formattedDate), \(weekday.name)")
     }
     
     // MARK: - Private Methods
     
     private func makeMockData() {
-        let t1 = Tracker(id: UUID(), name: "Поливать растения", color: UIColor(red: 51/255.0, green: 207/255.0, blue: 105/255.0, alpha: 1), emoji: "🌺", schedule: [.monday, .friday])
-        let t2 = Tracker(id: UUID(), name: "Кошка заслонила камеру на созвоне", color: UIColor(red: 255/255.0, green: 136/255.0, blue: 30/255.0, alpha: 1), emoji: "😻", schedule: [.tuesday, .thursday, .saturday])
-        let t3 = Tracker(id: UUID(), name: "Бабушка прислала открытку в вотсапе", color: UIColor(red: 255/255.0, green: 103/255.0, blue: 77/255.0, alpha: 1), emoji: "❤️", schedule: [.wednesday])
-        let category = TrackerCategory(id: UUID(), title: "Домашний уют", trackers: [t1, t2, t3])
-        categories.append(category)
+        let t1 = Tracker(id: UUID(), name: "Поливать растения", color: UIColor(red: 51/255.0, green: 207/255.0, blue: 105/255.0, alpha: 1), emoji: "🌺", days: [.monday, .friday])
+        let t2 = Tracker(id: UUID(), name: "Кошка заслонила камеру на созвоне", color: UIColor(red: 255/255.0, green: 136/255.0, blue: 30/255.0, alpha: 1), emoji: "😻", days: [.tuesday, .thursday, .saturday])
+        let t3 = Tracker(id: UUID(), name: "Бабушка прислала открытку в вотсапе", color: UIColor(red: 255/255.0, green: 103/255.0, blue: 77/255.0, alpha: 1), emoji: "❤️", days: [.wednesday])
+        //        let category = TrackerCategory(title: "Домашний уют", trackers: [t1, t2, t3])
+        //        categories.append(category)
         
-        let t4 = Tracker(id: UUID(), name: "Свидания в апреле", color: UIColor(red: 173/255.0, green: 86/255.0, blue: 218/255.0, alpha: 1), emoji: "💫", schedule: [.monday, .friday])
-        let t5 = Tracker(id: UUID(), name: "Хорошее настроение", color: UIColor(red: 249/255.0, green: 212/255.0, blue: 212/255.0, alpha: 1), emoji: "🚴‍♂️", schedule: [.tuesday, .thursday, .saturday])
-        let t6 = Tracker(id: UUID(), name: "Кошачьи радости", color: UIColor(red: 52/255.0, green: 167/255.0, blue: 254/255.0, alpha: 1), emoji: "😻", schedule: [.tuesday, .thursday, .saturday])
-        let category2 = TrackerCategory(id: UUID(), title: "Радостные мелочи", trackers: [t4, t5, t6])
-        categories.append(category2)
+        let t4 = Tracker(id: UUID(), name: "Свидания в апреле", color: UIColor(red: 173/255.0, green: 86/255.0, blue: 218/255.0, alpha: 1), emoji: "💫", days: [.monday, .friday])
+        let t5 = Tracker(id: UUID(), name: "Хорошее настроение", color: UIColor(red: 249/255.0, green: 212/255.0, blue: 212/255.0, alpha: 1), emoji: "🚴‍♂️", days: [.tuesday, .thursday, .saturday])
+        let t6 = Tracker(id: UUID(), name: "Тест 3", color: UIColor(red: 246/255.0, green: 196/255.0, blue: 139/255.0, alpha: 1), emoji: "🚴‍♂️", days: [.tuesday, .thursday, .saturday])
+        //        let category2 = TrackerCategory(title: "Радостные мелочи", trackers: [t4, t5, t6])
+        //        categories.append(category2)
+        allTrackers.append(contentsOf: [t1, t2, t3, t4, t5, t6])
+        update()
+    }
+    
+    private func update() {
+        let completedIrregulars = Set(
+            allTrackers.filter { tracker in
+                !tracker.isRegular &&
+                completedTrackers.first { $0.trackerId == tracker.id } != nil
+            }
+        )
+        completedIds = Set(
+            completedTrackers
+                .filter { Calendar.current.isDate($0.date, inSameDayAs: currentDate) }
+                .map { $0.trackerId }
+        )
+        
+        let weekday = WeekDay(date: currentDate)
+        let selectedTrackers = allTrackers.filter { tracker in
+            if let days = tracker.days {
+                return days.contains(weekday)
+            } else {
+                return completedIds.contains(tracker.id) || !completedIrregulars.contains(tracker)
+            }
+        }
+        categories = selectedTrackers.isEmpty ? [] : [TrackerCategory(title: "Общая категория", trackers: selectedTrackers)]
+        
+        collectionView.reloadData()
+        
+        collectionView.isHidden = selectedTrackers.isEmpty
+        thumbnailStateView.isHidden = !selectedTrackers.isEmpty
     }
     
     private func setupCollectionView() {
@@ -103,6 +144,12 @@ class TrackersViewController: UIViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+        
+        //thumbnailStateView
+        NSLayoutConstraint.activate([
+            thumbnailStateView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            thumbnailStateView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
+        ])
     }
     
     private func register() {
@@ -113,14 +160,6 @@ class TrackersViewController: UIViewController {
     
     
     //MARK: Layout
-    
-    private func thumbnailConstraints() {
-        
-        NSLayoutConstraint.activate([
-            thumbnailStateView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            thumbnailStateView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
-        ])
-    }
     
     private func setupNavigationItems() {
         let addButton = UIBarButtonItem(
