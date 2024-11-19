@@ -1,6 +1,6 @@
 import UIKit
 
-class NewTrackerVC: UIViewController {
+final class NewTrackerVC: UIViewController {
     
     // MARK: - Private Properties
     
@@ -8,10 +8,13 @@ class NewTrackerVC: UIViewController {
     private let createButton = ActionButton(type: .system)
     private let buttonStackView = UIStackView()
     
-    var selectedDays: [String] = []
+    private var name: String = ""
+    private var days: Set<WeekDay>?
     
     // TableView
     private let tableView = UITableView()
+    private let textCellID = "TextCell"
+    private let linkCellID = "LinkCell"
     
     // MARK: - Init
     
@@ -42,6 +45,7 @@ class NewTrackerVC: UIViewController {
         setupCancelButton()
         setupCreateButton()
         setupButtonStackView()
+        configureViewState()
         
         configureUI()
         
@@ -78,6 +82,11 @@ class NewTrackerVC: UIViewController {
         NSLayoutConstraint.activate([
             createButton.heightAnchor.constraint(equalToConstant: 60)
         ])
+    }
+    
+    private func configureViewState() {
+        let daysAreValid = days?.isEmpty == false || trackerType == .irregular
+        createButton.isEnabled = !name.isEmpty && daysAreValid
     }
     
     private func setupButtonStackView() {
@@ -121,8 +130,8 @@ class NewTrackerVC: UIViewController {
     private func setupTableView() {
         view.addSubview(tableView)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        tableView.register(TextCell.self, forCellReuseIdentifier: "TextCell")
-        tableView.register(LinkCell.self, forCellReuseIdentifier: "LinkCell")
+        tableView.register(TextCell.self, forCellReuseIdentifier: textCellID)
+        tableView.register(LinkCell.self, forCellReuseIdentifier: linkCellID)
         
         // delegate, dataSource
         tableView.delegate = self
@@ -144,10 +153,6 @@ class NewTrackerVC: UIViewController {
     
     
     // MARK: - Actions
-    
-    @objc private func scheduleButtonTapped() {
-        // Обработка нажатия на кнопку "Расписание"
-    }
     
     @objc private func cancelButtonTapped() {
         self.dismiss(animated: true)
@@ -176,55 +181,60 @@ extension NewTrackerVC: UITableViewDataSource, UITableViewDelegate {
     }
     // Настройка ячейки
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch trackerType {
-        case .regular:
-            if indexPath.section == 0 {
-                guard let textCell = tableView.dequeueReusableCell(withIdentifier: "TextCell", for: indexPath) as? TextCell else {return UITableViewCell()}
-                tableView.applyCornerRadius(to: textCell, at: indexPath)
-                return textCell
-            } else if indexPath.row == 0 {
-                guard let linkCell = tableView.dequeueReusableCell(withIdentifier: "LinkCell", for: indexPath) as? LinkCell else {return UITableViewCell()}
-                linkCell.configure(title: "Категория")
-                tableView.addSeparatorIfNeeded(to: linkCell , at: indexPath)
-                tableView.applyCornerRadius(to: linkCell, at: indexPath)
-                return linkCell
-            } else {
-                guard let linkCell = tableView.dequeueReusableCell(withIdentifier: "LinkCell", for: indexPath) as? LinkCell else {return UITableViewCell()}
-                linkCell.configure(title: "Расписание")
-                tableView.addSeparatorIfNeeded(to: linkCell , at: indexPath)
-                tableView.applyCornerRadius(to: linkCell, at: indexPath)
-                return linkCell
+        switch indexPath.section {
+        case 0:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: textCellID, for: indexPath) as? TextCell else {
+                return UITableViewCell()
             }
-        case .irregular:
-            if indexPath.section == 0 {
-                guard let textCell = tableView.dequeueReusableCell(withIdentifier: "TextCell", for: indexPath) as? TextCell else {return UITableViewCell()}
-                tableView.applyCornerRadius(to: textCell, at: indexPath)
-                return textCell
-            } else {
-                guard let linkCell = tableView.dequeueReusableCell(withIdentifier: "LinkCell", for: indexPath) as? LinkCell else {return UITableViewCell()}
-                linkCell.configure(title: "Категория")
-                tableView.addSeparatorIfNeeded(to: linkCell , at: indexPath)
-                tableView.applyCornerRadius(to: linkCell, at: indexPath)
-                return linkCell
+            cell.onTextChange = { [weak self] text in
+                self?.name = text
+                self?.configureViewState()
             }
+            return cell
+            
+        case 1:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: linkCellID, for: indexPath) as? LinkCell else {
+                return UITableViewCell()
+            }
+            if indexPath.row == 0 {
+                cell.configure(title: "Категория", caption: "Общая категория")
+            } else if indexPath.row == 1 {
+                var caption = ""
+                if let days {
+                    if days.count == WeekDay.allCases.count {
+                        caption = "Каждый день"
+                    } else {
+                        let shortNames = days.map { $0.shortName }
+                        caption = shortNames.joined(separator: ", ")
+                    }
+                }
+                cell.configure(title: "Расписание", caption: caption)
+            }
+            return cell
+            
+        default:
+            return UITableViewCell()
         }
-        
     }
     
     // Обработка нажатий на ячейку (опционально)
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if indexPath.section == 1 && indexPath.row == 1 {
-            let viewController = ScheduleViewController()
-            navigationController?.pushViewController(viewController, animated: true)
+        let viewController = ScheduleViewController(days: days)
+        viewController.onCompletion = { [weak self] result in
+            self?.days = result
+            self?.tableView.reloadData()
+            self?.configureViewState()
         }
+        navigationController?.pushViewController(viewController, animated: true)
     }
+    
     // высота ячейки
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75.0
     }
-    // отступы между секциями
     
+    // отступы между секциями
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 24
     }

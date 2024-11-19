@@ -3,22 +3,43 @@ import UIKit
 enum WeekDay: Int, CaseIterable {
     case sunday = 1, monday, tuesday, wednesday, thursday, friday, saturday
     
+    //полное название дня недели
     var name: String {
         switch self {
         case .monday:
-            "Понедельник"
+            return "Понедельник"
         case .tuesday:
-            "Вторник"
+            return "Вторник"
         case .wednesday:
-            "Среда"
+            return "Среда"
         case .thursday:
-            "Четверг"
+            return "Четверг"
         case .friday:
-            "Пятница"
+            return "Пятница"
         case .saturday:
-            "Суббота"
+            return "Суббота"
         case .sunday:
-            "Воскресенье"
+            return "Воскресенье"
+        }
+    }
+    
+    //короткое название дня недели
+    var shortName: String {
+        switch self {
+        case .monday:
+            return "Пн."
+        case .tuesday:
+            return "Вт."
+        case .wednesday:
+            return "Ср."
+        case .thursday:
+            return "Чт."
+        case .friday:
+            return "Пт."
+        case .saturday:
+            return "Сб."
+        case .sunday:
+            return "Вс."
         }
     }
     
