@@ -50,6 +50,11 @@ final class NewTrackerVC: UIViewController {
         configureUI()
         
         setupTableView()
+        
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
     }
     
     // MARK: - Private Methods
@@ -153,6 +158,10 @@ final class NewTrackerVC: UIViewController {
     
     
     // MARK: - Actions
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
     
     @objc private func cancelButtonTapped() {
         self.dismiss(animated: true)
