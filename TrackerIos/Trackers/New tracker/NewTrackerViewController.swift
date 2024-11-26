@@ -191,9 +191,9 @@ final class NewTrackerVC: UIViewController {
         
         guard let randomColor = colors.randomElement() else {return}
         
-        let emoji = [
+        guard let emoji = [
             "🌺", "😻", "❤️", "💫", "🥇","🌞", "🌙", "⭐️","🍀", "🌿", "🌳","🍎", "🥑", "🍒","🏃‍♂️", "🚴‍♀️","🎨", "🎸", "🎮", "🎧", "📚", "✍️","💡", "💻","😇", "🤗", "🥰", "😴", "🤓", "😎","🌍", "✈️", "🚀", "🚲", "🏕️","🎉", "🎈", "🎂", "🎁", "🎄"
-        ].randomElement()!
+        ].randomElement() else { return }
         let tracker = Tracker(id: UUID(), name: name, color: randomColor, emoji: emoji, days: days)
         NotificationCenter.default.post(name: TrackersViewController.notificationName, object: tracker)
         self.dismiss(animated: true)

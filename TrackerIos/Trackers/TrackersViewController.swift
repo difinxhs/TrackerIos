@@ -3,15 +3,15 @@ import UIKit
 final class TrackersViewController: UIViewController {
     
     //navigation bar
-    @IBOutlet weak var addTrackerButton: UIBarButtonItem!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var searchInput: UISearchBar!
-    @IBOutlet weak var datePicker: UIDatePicker!
+    @IBOutlet private weak var addTrackerButton: UIBarButtonItem!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var searchInput: UISearchBar!
+    @IBOutlet private weak var datePicker: UIDatePicker!
     
     static let notificationName = NSNotification.Name("AddNewTracker")
     
-    var categories: [TrackerCategory] = []
-    var completedTrackers: [TrackerRecord] = []
+    private var categories: [TrackerCategory] = []
+    private var completedTrackers: [TrackerRecord] = []
     private var currentDate: Date = Date()
     private var completedIds: Set<UUID> = []
     private var allTrackers: [Tracker] = []
@@ -220,7 +220,11 @@ extension TrackersViewController: UICollectionViewDelegate {
     
     //header
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as? TrackersCategoryHeader else {return UICollectionReusableView()}
+        guard let header = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: headerIdentifier,
+            for: indexPath
+        ) as? TrackersCategoryHeader else {return UICollectionReusableView()}
         
         header.config(with: categories[indexPath.section])
         return header
@@ -246,7 +250,12 @@ extension TrackersViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //создаем ячейку
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? TrackersCollectionCell else {return UICollectionViewCell()}
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: cellIdentifier,
+            for: indexPath
+        ) as? TrackersCollectionCell else {
+            return UICollectionViewCell()
+        }
         cell.prepareForReuse()
         let tracker = categories[indexPath.section].trackers[indexPath.row]
         cell.config(with: tracker,
@@ -263,7 +272,11 @@ extension TrackersViewController: UICollectionViewDataSource {
 extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     
     // Метод для задания размера ячейки
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
         let availableWidth = collectionView.frame.width - params.paddingWidth
         let cellWidth =  availableWidth / CGFloat(params.cellCount)
         return CGSize(width: cellWidth, height: 148)
@@ -271,22 +284,38 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     
     //отступы для секций в коллекциях insetForSectionAt 
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAt section: Int
+    ) -> UIEdgeInsets {
         return UIEdgeInsets(top: 12, left: params.leftInset, bottom: 16, right: params.rightInset)
     }
     
     //минимальный отступ между строками коллекции
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int
+    ) -> CGFloat {
         return 0
     }
     
     //расстояние между столбцами
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumInteritemSpacingForSectionAt section: Int
+    ) -> CGFloat {
         return params.cellSpacing
     }
     
     // header
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        referenceSizeForHeaderInSection section: Int
+    ) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: 19)
     }
 }

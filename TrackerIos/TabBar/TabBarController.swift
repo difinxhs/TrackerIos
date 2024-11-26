@@ -21,7 +21,11 @@ class TabBarController: UITabBarController {
         
         self.viewControllers = [trackersNavController, statsViewController]
         tabBar.backgroundColor = .white
+        
+        // дивайдер
+        let divider = CALayer()
+        divider.frame = CGRect(x: 0, y: 0, width: tabBar.frame.width, height: 1)
+        divider.backgroundColor = UIColor(named: "Gray")?.cgColor
+        tabBar.layer.addSublayer(divider)
     }
-    
-    
 }
