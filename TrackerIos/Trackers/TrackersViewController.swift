@@ -29,12 +29,14 @@ final class TrackersViewController: UIViewController {
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let cellIdentifier = "TrackerCell"
     private let headerIdentifier = "Header"
-    let params = GeometricParams(
-        cellCount: 2,
-        leftInset: 16,
-        rightInset: 16,
-        cellSpacing: 10
-    )
+    let params =  GeometricParams(columnCount: 2,
+                                  rowCount: 0,
+                                  leftInset: 16,
+                                  rightInset: 16,
+                                  topInset: 12,
+                                  bottomInset: 16,
+                                  columnSpacing: 10,
+                                  rowSpacing: 0)
     
     private let thumbnailStateView: UIView = {
         let view = ThumbnailStateView()
@@ -277,8 +279,8 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        let availableWidth = collectionView.frame.width - params.paddingWidth
-        let cellWidth =  availableWidth / CGFloat(params.cellCount)
+        let availableWidth = collectionView.frame.width - params.totalInsetWidth
+        let cellWidth =  availableWidth / CGFloat(params.columnCount)
         return CGSize(width: cellWidth, height: 148)
     }
     
@@ -289,7 +291,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         insetForSectionAt section: Int
     ) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 12, left: params.leftInset, bottom: 16, right: params.rightInset)
+        return UIEdgeInsets(top: params.topInset, left: params.leftInset, bottom: params.bottomInset, right: params.rightInset)
     }
     
     //минимальный отступ между строками коллекции
@@ -307,7 +309,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         minimumInteritemSpacingForSectionAt section: Int
     ) -> CGFloat {
-        return params.cellSpacing
+        return params.columnSpacing
     }
     
     // header
