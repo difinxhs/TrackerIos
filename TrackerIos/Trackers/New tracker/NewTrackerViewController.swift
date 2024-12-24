@@ -280,8 +280,8 @@ final class NewTrackerVC: UIViewController {
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
-            // Ограничение высоты contentView с низким приоритетом
-            contentView.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.heightAnchor, constant: 1).withPriority(.defaultLow),
+            // Ограничение высоты contentView
+            contentView.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.heightAnchor, constant: 1),
             tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             tableView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -566,12 +566,5 @@ extension NewTrackerVC: UICollectionViewDelegate {
             }
             configureViewState()
         }
-    }
-}
-
-extension NSLayoutConstraint {
-    func withPriority(_ priority: UILayoutPriority) -> NSLayoutConstraint {
-        self.priority = priority
-        return self
     }
 }
