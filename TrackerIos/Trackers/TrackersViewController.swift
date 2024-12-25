@@ -10,6 +10,9 @@ final class TrackersViewController: UIViewController {
     
     static let notificationName = NSNotification.Name("AddNewTracker")
     
+    // MARK: Private properties
+    private let trackerStore = TrackerStore()
+    
     private var categories: [TrackerCategory] = []
     private var completedTrackers: [TrackerRecord] = []
     private var currentDate: Date = Date()
@@ -55,6 +58,8 @@ final class TrackersViewController: UIViewController {
         setupCollectionView()
         setupConstraints()
         collectionView.isHidden = true
+        loadTrackers()
+        update()
         
         NotificationCenter.default.addObserver(self, selector: #selector(addNewTracker), name: TrackersViewController.notificationName, object: nil)
     }
@@ -64,6 +69,7 @@ final class TrackersViewController: UIViewController {
     @objc private func addNewTracker(_ notification: Notification) {
         guard let tracker = notification.object as? Tracker else { return }
         allTrackers.append(tracker)
+        trackerStore.addNewTracker(tracker) //записываем в память
         update()
     }
     
@@ -93,6 +99,17 @@ final class TrackersViewController: UIViewController {
     }
     
     // MARK: - Private Methods
+    
+    private func loadTrackers() { // загружаем в массив данные из памяти при запуске
+        allTrackers = try! trackerStore.fetchTrackers()
+        if allTrackers.isEmpty {
+            print("Массив пуст.")
+        } else {
+            allTrackers.forEach { tracker in
+                print("load tracker: \(tracker.name)")
+            }
+        }
+    }
     
     private func update() {
         let completedIrregulars = Set(
