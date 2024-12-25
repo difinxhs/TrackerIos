@@ -38,6 +38,7 @@
 		1576722F2D1B804E0092BFC2 /* TrackerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1576722E2D1B80490092BFC2 /* TrackerStore.swift */; };
 		157672302D1B804E0092BFC2 /* TrackerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1576722E2D1B80490092BFC2 /* TrackerStore.swift */; };
 		157672322D1B80840092BFC2 /* UIColorMarshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157672312D1B80780092BFC2 /* UIColorMarshalling.swift */; };
+		157672342D1B84DE0092BFC2 /* WeekdayConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157672332D1B84D00092BFC2 /* WeekdayConverter.swift */; };
 		15B2D0202CB7283D004986A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15B2D0112CB7283D004986A7 /* LaunchScreen.storyboard */; };
 		15B2D0212CB7283D004986A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15B2D0182CB7283D004986A7 /* Assets.xcassets */; };
 		15B2D0242CB7283D004986A7 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B2D0132CB7283D004986A7 /* TabBarController.swift */; };
@@ -93,6 +94,7 @@
 		1576722B2D1B80320092BFC2 /* TrackerRecordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordStore.swift; sourceTree = "<group>"; };
 		1576722E2D1B80490092BFC2 /* TrackerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStore.swift; sourceTree = "<group>"; };
 		157672312D1B80780092BFC2 /* UIColorMarshalling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorMarshalling.swift; sourceTree = "<group>"; };
+		157672332D1B84D00092BFC2 /* WeekdayConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayConverter.swift; sourceTree = "<group>"; };
 		15B2D0102CB7283D004986A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		15B2D0132CB7283D004986A7 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		15B2D0152CB7283D004986A7 /* TrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 		1518D5852CEBBD8300E9189A /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				157672332D1B84D00092BFC2 /* WeekdayConverter.swift */,
 				157672312D1B80780092BFC2 /* UIColorMarshalling.swift */,
 				154A9BD62D1B6E3700B24184 /* ProtocolSelectableCell.swift */,
 				1518D5962CEBD44200E9189A /* ApplyCornerRadius.swift */,
@@ -432,6 +435,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1518D58C2CEBC69C00E9189A /* AddTrackerViewController.swift in Sources */,
+				157672342D1B84DE0092BFC2 /* WeekdayConverter.swift in Sources */,
 				15B2D0242CB7283D004986A7 /* TabBarController.swift in Sources */,
 				15B2D0252CB7283D004986A7 /* TrackersViewController.swift in Sources */,
 				1518D5932CEBD11400E9189A /* ScheduleViewController.swift in Sources */,
