@@ -15,7 +15,7 @@ final class TrackersViewController: UIViewController {
         TrackerStore(delegate: self, for: currentDate)
     }()
     
-    private var currentDate: Date = Date()
+    private var currentDate: Date = Date().dayStart
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -77,7 +77,7 @@ final class TrackersViewController: UIViewController {
     }
     
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
-        currentDate = sender.date
+        currentDate = sender.date.dayStart
         datePicker.removeFromSuperview()
         
         trackerStore.updateDate(currentDate)
@@ -151,7 +151,6 @@ final class TrackersViewController: UIViewController {
         
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
-        datePicker.locale = Locale(identifier: "ru_RU")
         datePicker.preferredDatePickerStyle = .compact
         let datePickerItem = UIBarButtonItem(customView: datePicker)
         navigationItem.rightBarButtonItem = datePickerItem
@@ -241,7 +240,7 @@ extension TrackersViewController: UICollectionViewDataSource {
         cell.config(with: completionStatus.tracker,
                     numberOfCompletions: completionStatus.numberOfCompletions,
                     isCompleted: completionStatus.isCompleted,
-                    completionIsEnabled: currentDate <= Date())
+                    completionIsEnabled: currentDate <= Date().dayStart)
         cell.delegate = self
         return cell
         

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1511B5232D2DB3CF009677CF /* DateConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1511B5222D2DB3BF009677CF /* DateConverter.swift */; };
 		1518D57A2CDBEFBD00E9189A /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D5792CDBEFB700E9189A /* Tracker.swift */; };
 		1518D57C2CDBF03B00E9189A /* TrackerCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D57B2CDBF03100E9189A /* TrackerCategory.swift */; };
 		1518D57E2CDBF08000E9189A /* TrackerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D57D2CDBF06E00E9189A /* TrackerRecord.swift */; };
@@ -67,6 +68,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1511B5222D2DB3BF009677CF /* DateConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConverter.swift; sourceTree = "<group>"; };
 		1518D5792CDBEFB700E9189A /* Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
 		1518D57B2CDBF03100E9189A /* TrackerCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategory.swift; sourceTree = "<group>"; };
 		1518D57D2CDBF06E00E9189A /* TrackerRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecord.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 		1518D5852CEBBD8300E9189A /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				1511B5222D2DB3BF009677CF /* DateConverter.swift */,
 				157672332D1B84D00092BFC2 /* WeekdayConverter.swift */,
 				157672312D1B80780092BFC2 /* UIColorMarshalling.swift */,
 				154A9BD62D1B6E3700B24184 /* ProtocolSelectableCell.swift */,
@@ -448,6 +451,7 @@
 				15B2D0262CB7283D004986A7 /* AppDelegate.swift in Sources */,
 				1518D59E2CEBD65100E9189A /* LinkCell.swift in Sources */,
 				15B2D0272CB7283D004986A7 /* SceneDelegate.swift in Sources */,
+				1511B5232D2DB3CF009677CF /* DateConverter.swift in Sources */,
 				154A9BD92D1B6E5C00B24184 /* ColorCell.swift in Sources */,
 				1518D5822CEBB79900E9189A /* ThumbnailStateView.swift in Sources */,
 				1518D5902CEBD0AF00E9189A /* ActionButton.swift in Sources */,

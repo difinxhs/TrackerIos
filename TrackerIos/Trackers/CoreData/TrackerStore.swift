@@ -40,7 +40,6 @@ final class TrackerStore: NSObject {
     private var date: Date
     
     private let context = CoreDataManager.shared.context
-    private let uiColorMarshalling = UIColorMarshalling()
     
     private var insertedSections: [Int] = []
     private var deletedSections: [Int] = []
@@ -138,7 +137,7 @@ extension TrackerStore: TrackerStoreProtocol {
         
         trackerCoreData.id = newTracker.id
         trackerCoreData.name = newTracker.name
-        trackerCoreData.colorHex = uiColorMarshalling.hexString(from: newTracker.color) as NSString
+        trackerCoreData.colorHex = UIColorMarshalling.hexString(from: newTracker.color) as NSString
         trackerCoreData.days = newTracker.days?.toRawString() ?? ""
         trackerCoreData.emoji = newTracker.emoji
         
@@ -155,7 +154,7 @@ extension TrackerStore: TrackerStoreProtocol {
         
         let tracker = Tracker(id: trackerCoreData.id ?? UUID(),
                               name: trackerCoreData.name ?? "",
-                              color: uiColorMarshalling.color(from: (trackerCoreData.colorHex ?? "#000000" as NSObject) as! String),
+                              color: UIColorMarshalling.color(from: (trackerCoreData.colorHex ?? "#000000" as NSObject) as! String),
                               emoji: trackerCoreData.emoji ?? "",
                               days: Set(rawValue: trackerCoreData.days))
         
