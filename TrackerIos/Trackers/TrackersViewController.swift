@@ -15,12 +15,7 @@ final class TrackersViewController: UIViewController {
         TrackerStore(delegate: self, for: currentDate)
     }()
     
-    private var categories: [TrackerCategory] = []
-    private var completedTrackers: [TrackerRecord] = []
     private var currentDate: Date = Date()
-    private var completedIds: Set<UUID> = []
-    private var allTrackers: [Tracker] = [] // All created trackers
-    private var completionsCounter: [UUID: Int] = [:]
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -60,7 +55,7 @@ final class TrackersViewController: UIViewController {
         setupSearchInput()
         setupCollectionView()
         setupConstraints()
-        collectionView.isHidden = true
+//        collectionView.isHidden = true
         configureViewState()
         
         NotificationCenter.default.addObserver(self, selector: #selector(addNewTracker), name: TrackersViewController.notificationName, object: nil)
@@ -105,35 +100,6 @@ final class TrackersViewController: UIViewController {
     private func configureViewState() {
         collectionView.isHidden = trackerStore.isEmpty
         thumbnailStateView.isHidden = !trackerStore.isEmpty
-    }
-    
-    private func update() {
-        let completedIrregulars = Set(
-            allTrackers.filter { tracker in
-                !tracker.isRegular &&
-                completedTrackers.first { $0.trackerId == tracker.id } != nil
-            }
-        )
-        completedIds = Set(
-            completedTrackers
-                .filter { Calendar.current.isDate($0.date, inSameDayAs: currentDate) }
-                .map { $0.trackerId }
-        )
-        
-        let weekday = WeekDay(date: currentDate)
-        let selectedTrackers = allTrackers.filter { tracker in
-            if let days = tracker.days {
-                return days.contains(weekday)
-            } else {
-                return completedIds.contains(tracker.id) || !completedIrregulars.contains(tracker)
-            }
-        }
-        categories = selectedTrackers.isEmpty ? [] : [TrackerCategory(title: "Общая категория", trackers: selectedTrackers)]
-        
-        collectionView.reloadData()
-        
-        collectionView.isHidden = selectedTrackers.isEmpty
-        thumbnailStateView.isHidden = !selectedTrackers.isEmpty
     }
     
     private func setupCollectionView() {

@@ -1,14 +1,6 @@
 import UIKit
 import CoreData
 
-enum TrackerError: Error {
-    case decodingErrorInvalidId
-    case decodingErrorInvalidName
-    case decodingErrorInvalidColorHex
-    case decodingErrorInvalidEmoji
-    case decodingErrorInvalidDays
-}
-
 struct TrackerStoreUpdate {
     let insertedSections: [Int]
     let deletedSections: [Int]
@@ -33,7 +25,6 @@ protocol TrackerStoreProtocol {
     var numberOfSections: Int { get }
     func numberOfItemsInSection(_ section: Int) -> Int
     func sectionName(for section: Int) -> String
-    //    var savedTrackers: [Tracker] { get }
     func addNewTracker(_ tracker: Tracker)
     func deleteTracker(at indexPath: IndexPath)
     
@@ -151,12 +142,9 @@ extension TrackerStore: TrackerStoreProtocol {
         trackerCoreData.days = newTracker.days?.toRawString() ?? ""
         trackerCoreData.emoji = newTracker.emoji
         
-        do {
-            try context.save()
-            print("Save: \(newTracker.name)")
-        } catch {
-            print("Error saving new tracker: \(error.localizedDescription)")
-        }
+        trackerCoreData.category = category
+        
+        CoreDataManager.shared.saveContext()
     }
     
     func deleteTracker(at indexPath: IndexPath) {
