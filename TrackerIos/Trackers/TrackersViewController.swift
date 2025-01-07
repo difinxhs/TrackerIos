@@ -12,8 +12,8 @@ final class TrackersViewController: UIViewController {
     
     // MARK: Private properties
     private lazy var trackerStore: TrackerStoreProtocol = {
-            TrackerStore(delegate: self, for: currentDate)
-        }()
+        TrackerStore(delegate: self, for: currentDate)
+    }()
     
     private var categories: [TrackerCategory] = []
     private var completedTrackers: [TrackerRecord] = []
@@ -85,7 +85,9 @@ final class TrackersViewController: UIViewController {
         currentDate = sender.date
         datePicker.removeFromSuperview()
         
-        update()
+        trackerStore.updateDate(currentDate)
+        collectionView.reloadData()
+        configureViewState()
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy"
@@ -101,9 +103,9 @@ final class TrackersViewController: UIViewController {
     // MARK: - Private Methods
     
     private func configureViewState() {
-               collectionView.isHidden = trackerStore.isEmpty
-               thumbnailStateView.isHidden = !trackerStore.isEmpty
-           }
+        collectionView.isHidden = trackerStore.isEmpty
+        thumbnailStateView.isHidden = !trackerStore.isEmpty
+    }
     
     private func update() {
         let completedIrregulars = Set(
@@ -270,10 +272,10 @@ extension TrackersViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         let completionStatus = trackerStore.completionStatus(for: indexPath)
-                cell.config(with: completionStatus.tracker,
-                            numberOfCompletions: completionStatus.numberOfCompletions,
-                            isCompleted: completionStatus.isCompleted,
-                            completionIsEnabled: currentDate <= Date())
+        cell.config(with: completionStatus.tracker,
+                    numberOfCompletions: completionStatus.numberOfCompletions,
+                    isCompleted: completionStatus.isCompleted,
+                    completionIsEnabled: currentDate <= Date())
         cell.delegate = self
         return cell
         
@@ -356,19 +358,19 @@ extension TrackersViewController: TrackersCollectionCellDelegate {
 // MARK: - TrackerStoreDelegate
 extension TrackersViewController: TrackerStoreDelegate {
     func didUpdate(_ update: TrackerStoreUpdate) {
-
+        
         collectionView.performBatchUpdates({
             if !update.deletedSections.isEmpty {
-                           collectionView.deleteSections(IndexSet(update.deletedSections))
-                       }
-                       if !update.insertedSections.isEmpty {
-                           collectionView.insertSections(IndexSet(update.insertedSections))
-                       }
-
+                collectionView.deleteSections(IndexSet(update.deletedSections))
+            }
+            if !update.insertedSections.isEmpty {
+                collectionView.insertSections(IndexSet(update.insertedSections))
+            }
+            
             collectionView.insertItems(at: update.insertedIndexes)
             collectionView.deleteItems(at: update.deletedIndexes)
             collectionView.reloadItems(at: update.updatedIndexes)
-
+            
             for move in update.movedIndexes{
                 collectionView.moveItem(at: move.from, to: move.to)
             }

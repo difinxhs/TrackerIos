@@ -38,6 +38,8 @@ protocol TrackerStoreProtocol {
     func deleteTracker(at indexPath: IndexPath)
     
     func completionStatus(for indexPath: IndexPath) -> TrackerCompletion
+    
+    func updateDate(_ newDate: Date)
 }
 
 final class TrackerStore: NSObject {
@@ -60,6 +62,7 @@ final class TrackerStore: NSObject {
         let fetchRequest = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "category.name", ascending: true),
                                         NSSortDescriptor(key: "name", ascending: true)]
+        fetchRequest.predicate = fetchPredicate()
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: fetchRequest,
             managedObjectContext: context,
@@ -74,6 +77,29 @@ final class TrackerStore: NSObject {
     init(delegate: TrackerStoreDelegate, for date: Date) {
         self.delegate = delegate
         self.date = date
+    }
+    
+    private func fetchPredicate() -> NSPredicate {
+        NSPredicate(
+            format: """
+                        (%K CONTAINS[n] %@) OR (
+                            %K == %@ AND (
+                                SUBQUERY(%K, $record, $record != nil AND $record.date == %@).@count > 0 OR
+                                SUBQUERY(%K, $record, $record != nil).@count == 0
+                            )
+                        )
+                        """,
+            #keyPath(TrackerCoreData.days),
+            String(WeekDay(date: date).rawValue),
+            
+            #keyPath(TrackerCoreData.days),
+            "",
+            
+            #keyPath(TrackerCoreData.records),
+            date as NSDate,
+            
+            #keyPath(TrackerCoreData.records)
+        )
     }
     
     private func category() -> TrackerCategoryCoreData {
@@ -153,6 +179,13 @@ extension TrackerStore: TrackerStoreProtocol {
                                                   numberOfCompletions: trackerCoreData.records?.count ?? 0,
                                                   isCompleted: isCompleted)
         return trackerCompletion
+    }
+    
+    func updateDate(_ newDate: Date) {
+        date = newDate
+        
+        fetchedResultsController.fetchRequest.predicate = fetchPredicate()
+        try? fetchedResultsController.performFetch()
     }
 }
 
