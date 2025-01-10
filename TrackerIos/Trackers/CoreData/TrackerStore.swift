@@ -152,11 +152,13 @@ extension TrackerStore: TrackerStoreProtocol {
     func completionStatus(for indexPath: IndexPath) -> TrackerCompletion {
         let trackerCoreData = fetchedResultsController.object(at: indexPath)
         
-        let tracker = Tracker(id: trackerCoreData.id ?? UUID(),
-                              name: trackerCoreData.name ?? "",
-                              color: UIColorMarshalling.color(from: (trackerCoreData.colorHex ?? "#000000" as NSObject) as! String),
-                              emoji: trackerCoreData.emoji ?? "",
-                              days: Set(rawValue: trackerCoreData.days))
+        let colorHex = trackerCoreData.colorHex as? String ?? "#000000"
+        let tracker = Tracker(
+            id: trackerCoreData.id ?? UUID(),
+            name: trackerCoreData.name ?? "",
+            color: UIColorMarshalling.color(from: colorHex),
+            emoji: trackerCoreData.emoji ?? "",
+            days: Set(rawValue: trackerCoreData.days))
         
         let isCompleted = trackerCoreData.records?.contains { record in
             guard let trackerRecord = record as? TrackerRecordCoreData else { return false }
