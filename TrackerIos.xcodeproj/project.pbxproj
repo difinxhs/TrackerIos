@@ -46,7 +46,6 @@
 		15B2D0252CB7283D004986A7 /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B2D0152CB7283D004986A7 /* TrackersViewController.swift */; };
 		15B2D0262CB7283D004986A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B2D0172CB7283D004986A7 /* AppDelegate.swift */; };
 		15B2D0272CB7283D004986A7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B2D01C2CB7283D004986A7 /* SceneDelegate.swift */; };
-		15B2D0282CB7283D004986A7 /* TrackerIos.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 15B2D01D2CB7283D004986A7 /* TrackerIos.xcdatamodeld */; };
 		15B2D02B2CB7284F004986A7 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B2D02A2CB72849004986A7 /* StatsViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -104,7 +103,6 @@
 		15B2D0182CB7283D004986A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		15B2D0192CB7283D004986A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		15B2D01C2CB7283D004986A7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		15B2D01F2CB7283D004986A7 /* TrackerIos.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TrackerIos.xcdatamodel; sourceTree = "<group>"; };
 		15B2D02A2CB72849004986A7 /* StatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
 		15FCF4E22CB46F9900514277 /* TrackerIos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrackerIos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15FCF4FB2CB46F9B00514277 /* TrackerIosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrackerIosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -261,7 +259,6 @@
 				15B2D0182CB7283D004986A7 /* Assets.xcassets */,
 				15B2D0192CB7283D004986A7 /* Info.plist */,
 				15B2D01C2CB7283D004986A7 /* SceneDelegate.swift */,
-				15B2D01D2CB7283D004986A7 /* TrackerIos.xcdatamodeld */,
 			);
 			path = TrackerIos;
 			sourceTree = "<group>";
@@ -459,7 +456,6 @@
 				1518D57E2CDBF08000E9189A /* TrackerRecord.swift in Sources */,
 				15B2D02B2CB7284F004986A7 /* StatsViewController.swift in Sources */,
 				1518D5892CEBC23500E9189A /* TrackersCategoryHeader.swift in Sources */,
-				15B2D0282CB7283D004986A7 /* TrackerIos.xcdatamodeld in Sources */,
 				154A9BD72D1B6E4100B24184 /* ProtocolSelectableCell.swift in Sources */,
 				1576722D2D1B803D0092BFC2 /* TrackerRecordStore.swift in Sources */,
 				1518D5802CE3C73400E9189A /* TrackersCollectionCell.swift in Sources */,
@@ -822,16 +818,6 @@
 			);
 			currentVersion = 154A9BE02D1B77DA00B24184 /* Model.xcdatamodel */;
 			path = Model.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-		15B2D01D2CB7283D004986A7 /* TrackerIos.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				15B2D01F2CB7283D004986A7 /* TrackerIos.xcdatamodel */,
-			);
-			currentVersion = 15B2D01F2CB7283D004986A7 /* TrackerIos.xcdatamodel */;
-			path = TrackerIos.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
