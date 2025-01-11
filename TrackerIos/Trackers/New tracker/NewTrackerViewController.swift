@@ -392,19 +392,6 @@ extension NewTrackerVC: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    
-//    // Обработка нажатий на ячейку
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
-//        let viewController = ScheduleViewController(days: days)
-//        viewController.onCompletion = { [weak self] result in
-//            self?.days = result
-//            self?.tableView.reloadData()
-//            self?.configureViewState()
-//        }
-//        navigationController?.pushViewController(viewController, animated: true)
-//    }
-    
     // Обработка нажатий на ячейку без перехода по категории в рассписание. Временно
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
