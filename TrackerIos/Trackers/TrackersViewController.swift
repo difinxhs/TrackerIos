@@ -10,12 +10,12 @@ final class TrackersViewController: UIViewController {
     
     static let notificationName = NSNotification.Name("AddNewTracker")
     
-    private var categories: [TrackerCategory] = []
-    private var completedTrackers: [TrackerRecord] = []
-    private var currentDate: Date = Date()
-    private var completedIds: Set<UUID> = []
-    private var allTrackers: [Tracker] = []
-    private var completionsCounter: [UUID: Int] = [:]
+    // MARK: Private properties
+    private lazy var trackerStore: TrackerStoreProtocol = {
+        TrackerStore(delegate: self, for: currentDate)
+    }()
+    
+    private var currentDate: Date = Date().dayStart
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -29,12 +29,14 @@ final class TrackersViewController: UIViewController {
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let cellIdentifier = "TrackerCell"
     private let headerIdentifier = "Header"
-    let params = GeometricParams(
-        cellCount: 2,
-        leftInset: 16,
-        rightInset: 16,
-        cellSpacing: 10
-    )
+    let params =  GeometricParams(columnCount: 2,
+                                  rowCount: 0,
+                                  leftInset: 16,
+                                  rightInset: 16,
+                                  topInset: 12,
+                                  bottomInset: 16,
+                                  columnSpacing: 10,
+                                  rowSpacing: 0)
     
     private let thumbnailStateView: UIView = {
         let view = ThumbnailStateView()
@@ -46,13 +48,15 @@ final class TrackersViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addSubview(thumbnailStateView)
+        configureViewState()
         navigationController?.navigationBar.isHidden = false
         setupNavigationItems()
         setupTitle()
         setupSearchInput()
         setupCollectionView()
         setupConstraints()
-        collectionView.isHidden = true
+//        collectionView.isHidden = true
+        configureViewState()
         
         NotificationCenter.default.addObserver(self, selector: #selector(addNewTracker), name: TrackersViewController.notificationName, object: nil)
     }
@@ -61,8 +65,7 @@ final class TrackersViewController: UIViewController {
     
     @objc private func addNewTracker(_ notification: Notification) {
         guard let tracker = notification.object as? Tracker else { return }
-        allTrackers.append(tracker)
-        update()
+        trackerStore.addNewTracker(tracker)
     }
     
     @objc private func addTrackerButtonDidTap() {
@@ -74,10 +77,12 @@ final class TrackersViewController: UIViewController {
     }
     
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
-        currentDate = sender.date
+        currentDate = sender.date.dayStart
         datePicker.removeFromSuperview()
         
-        update()
+        trackerStore.updateDate(currentDate)
+        collectionView.reloadData()
+        configureViewState()
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy"
@@ -92,33 +97,9 @@ final class TrackersViewController: UIViewController {
     
     // MARK: - Private Methods
     
-    private func update() {
-        let completedIrregulars = Set(
-            allTrackers.filter { tracker in
-                !tracker.isRegular &&
-                completedTrackers.first { $0.trackerId == tracker.id } != nil
-            }
-        )
-        completedIds = Set(
-            completedTrackers
-                .filter { Calendar.current.isDate($0.date, inSameDayAs: currentDate) }
-                .map { $0.trackerId }
-        )
-        
-        let weekday = WeekDay(date: currentDate)
-        let selectedTrackers = allTrackers.filter { tracker in
-            if let days = tracker.days {
-                return days.contains(weekday)
-            } else {
-                return completedIds.contains(tracker.id) || !completedIrregulars.contains(tracker)
-            }
-        }
-        categories = selectedTrackers.isEmpty ? [] : [TrackerCategory(title: "Общая категория", trackers: selectedTrackers)]
-        
-        collectionView.reloadData()
-        
-        collectionView.isHidden = selectedTrackers.isEmpty
-        thumbnailStateView.isHidden = !selectedTrackers.isEmpty
+    private func configureViewState() {
+        collectionView.isHidden = trackerStore.isEmpty
+        thumbnailStateView.isHidden = !trackerStore.isEmpty
     }
     
     private func setupCollectionView() {
@@ -170,7 +151,6 @@ final class TrackersViewController: UIViewController {
         
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
-        datePicker.locale = Locale(identifier: "ru_RU")
         datePicker.preferredDatePickerStyle = .compact
         let datePickerItem = UIBarButtonItem(customView: datePicker)
         navigationItem.rightBarButtonItem = datePickerItem
@@ -226,7 +206,7 @@ extension TrackersViewController: UICollectionViewDelegate {
             for: indexPath
         ) as? TrackersCategoryHeader else {return UICollectionReusableView()}
         
-        header.config(with: categories[indexPath.section])
+        header.config(with: trackerStore.sectionName(for: indexPath.section))
         return header
     }
 }
@@ -239,13 +219,13 @@ extension TrackersViewController: UICollectionViewDataSource {
     
     // кол-во секций
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return categories.count
+        return trackerStore.numberOfSections
     }
     
     // Количество элементов в коллекции
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return categories[section].trackers.count
+        return trackerStore.numberOfItemsInSection(section)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -256,12 +236,11 @@ extension TrackersViewController: UICollectionViewDataSource {
         ) as? TrackersCollectionCell else {
             return UICollectionViewCell()
         }
-        cell.prepareForReuse()
-        let tracker = categories[indexPath.section].trackers[indexPath.row]
-        cell.config(with: tracker,
-                    numberOfCompletions: completionsCounter[tracker.id] ?? 0,
-                    isCompleted: completedIds.contains(tracker.id),
-                    completionIsEnabled: currentDate <= Date())
+        let completionStatus = trackerStore.completionStatus(for: indexPath)
+        cell.config(with: completionStatus.tracker,
+                    numberOfCompletions: completionStatus.numberOfCompletions,
+                    isCompleted: completionStatus.isCompleted,
+                    completionIsEnabled: currentDate <= Date().dayStart)
         cell.delegate = self
         return cell
         
@@ -277,8 +256,8 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        let availableWidth = collectionView.frame.width - params.paddingWidth
-        let cellWidth =  availableWidth / CGFloat(params.cellCount)
+        let availableWidth = collectionView.frame.width - params.totalInsetWidth
+        let cellWidth =  availableWidth / CGFloat(params.columnCount)
         return CGSize(width: cellWidth, height: 148)
     }
     
@@ -289,7 +268,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         insetForSectionAt section: Int
     ) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 12, left: params.leftInset, bottom: 16, right: params.rightInset)
+        return UIEdgeInsets(top: params.topInset, left: params.leftInset, bottom: params.bottomInset, right: params.rightInset)
     }
     
     //минимальный отступ между строками коллекции
@@ -307,7 +286,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         minimumInteritemSpacingForSectionAt section: Int
     ) -> CGFloat {
-        return params.cellSpacing
+        return params.columnSpacing
     }
     
     // header
@@ -325,19 +304,32 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 extension TrackersViewController: TrackersCollectionCellDelegate {
     func trackersCellDidChangeCompletion(for cell: TrackersCollectionCell, to isCompleted: Bool) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
-        let tracker = categories[indexPath.section].trackers[indexPath.row]
-        
-        if isCompleted {
-            completedTrackers.append(TrackerRecord(trackerId: tracker.id, date: currentDate))
-            completedIds.insert(tracker.id)
-            completionsCounter[tracker.id] = (completionsCounter[tracker.id] ?? 0) + 1
-        } else {
-            completedTrackers.removeAll { $0.trackerId == tracker.id && $0.date == currentDate }
-            completedIds.remove(tracker.id)
-            if let currentCount = completionsCounter[tracker.id], currentCount > 0 {
-                completionsCounter[tracker.id] = currentCount - 1
-            }
-        }
+        trackerStore.changeCompletion(for: indexPath, to: isCompleted)
     }
 }
+
+// MARK: - TrackerStoreDelegate
+extension TrackersViewController: TrackerStoreDelegate {
+    func didUpdate(_ update: TrackerStoreUpdate) {
+        
+        collectionView.performBatchUpdates({
+            if !update.deletedSections.isEmpty {
+                collectionView.deleteSections(IndexSet(update.deletedSections))
+            }
+            if !update.insertedSections.isEmpty {
+                collectionView.insertSections(IndexSet(update.insertedSections))
+            }
+            
+            collectionView.insertItems(at: update.insertedIndexes)
+            collectionView.deleteItems(at: update.deletedIndexes)
+            collectionView.reloadItems(at: update.updatedIndexes)
+            
+            for move in update.movedIndexes{
+                collectionView.moveItem(at: move.from, to: move.to)
+            }
+        }, completion: nil)
+        configureViewState()
+    }
+}
+
 
