@@ -40,6 +40,8 @@ final class TrackersViewController: UIViewController {
     
     private let thumbnailStateView: UIView = {
         let view = ThumbnailStateView()
+        let text = "Что будем отслеживать?"
+        view.config(with: text)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     } ()

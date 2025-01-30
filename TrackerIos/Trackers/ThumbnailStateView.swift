@@ -32,15 +32,19 @@ final class ThumbnailStateView: UIView{
     }
     
     private func setupLabel(){
-        label.text = "Что будем отслеживать?"
         label.textAlignment = .center
         label.textColor = UIColor(named: "Black")
-        label.font = .systemFont(ofSize: 12)
+        label.font = .systemFont(ofSize: 12, weight: .medium)
+        label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
             label.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
+    }
+    
+    func config(with text: String) {
+        label.text = text
     }
 }
