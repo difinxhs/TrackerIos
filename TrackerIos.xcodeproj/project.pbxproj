@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		045064C72D4C0E5100613011 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045064C62D4C0E3C00613011 /* OnboardingPageViewController.swift */; };
+		045064C92D4C0E9D00613011 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045064C82D4C0E8E00613011 /* OnboardingViewController.swift */; };
 		1511B5232D2DB3CF009677CF /* DateConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1511B5222D2DB3BF009677CF /* DateConverter.swift */; };
 		1518D57A2CDBEFBD00E9189A /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D5792CDBEFB700E9189A /* Tracker.swift */; };
 		1518D57C2CDBF03B00E9189A /* TrackerCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D57B2CDBF03100E9189A /* TrackerCategory.swift */; };
@@ -67,6 +69,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		045064C62D4C0E3C00613011 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
+		045064C82D4C0E8E00613011 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		1511B5222D2DB3BF009677CF /* DateConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConverter.swift; sourceTree = "<group>"; };
 		1518D5792CDBEFB700E9189A /* Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
 		1518D57B2CDBF03100E9189A /* TrackerCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategory.swift; sourceTree = "<group>"; };
@@ -147,6 +151,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		045064C52D4C0E2800613011 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				045064C82D4C0E8E00613011 /* OnboardingViewController.swift */,
+				045064C62D4C0E3C00613011 /* OnboardingPageViewController.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		1518D5782CDBEFAE00E9189A /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -249,6 +262,7 @@
 			isa = PBXGroup;
 			children = (
 				1518D5852CEBBD8300E9189A /* Helpers */,
+				045064C52D4C0E2800613011 /* Onboarding */,
 				15B2D0122CB7283D004986A7 /* LaunchScreen */,
 				15B2D0142CB7283D004986A7 /* TabBar */,
 				15B2D0162CB7283D004986A7 /* Trackers */,
@@ -441,11 +455,13 @@
 				1518D5932CEBD11400E9189A /* ScheduleViewController.swift in Sources */,
 				1518D5A02CEBD68800E9189A /* TextCell.swift in Sources */,
 				154A9BDB2D1B724400B24184 /* SectionHeader.swift in Sources */,
+				045064C92D4C0E9D00613011 /* OnboardingViewController.swift in Sources */,
 				1576722F2D1B804E0092BFC2 /* TrackerStore.swift in Sources */,
 				1518D57C2CDBF03B00E9189A /* TrackerCategory.swift in Sources */,
 				154A9BD52D1B6D9900B24184 /* EmojiCell.swift in Sources */,
 				1518D5972CEBD45000E9189A /* ApplyCornerRadius.swift in Sources */,
 				15B2D0262CB7283D004986A7 /* AppDelegate.swift in Sources */,
+				045064C72D4C0E5100613011 /* OnboardingPageViewController.swift in Sources */,
 				1518D59E2CEBD65100E9189A /* LinkCell.swift in Sources */,
 				15B2D0272CB7283D004986A7 /* SceneDelegate.swift in Sources */,
 				1511B5232D2DB3CF009677CF /* DateConverter.swift in Sources */,
