@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		045064C72D4C0E5100613011 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045064C62D4C0E3C00613011 /* OnboardingPageViewController.swift */; };
 		045064C92D4C0E9D00613011 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045064C82D4C0E8E00613011 /* OnboardingViewController.swift */; };
+		045064CB2D4C116600613011 /* UserDefaultsOnboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045064CA2D4C115400613011 /* UserDefaultsOnboarding.swift */; };
 		1511B5232D2DB3CF009677CF /* DateConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1511B5222D2DB3BF009677CF /* DateConverter.swift */; };
 		1518D57A2CDBEFBD00E9189A /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D5792CDBEFB700E9189A /* Tracker.swift */; };
 		1518D57C2CDBF03B00E9189A /* TrackerCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518D57B2CDBF03100E9189A /* TrackerCategory.swift */; };
@@ -71,6 +72,7 @@
 /* Begin PBXFileReference section */
 		045064C62D4C0E3C00613011 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
 		045064C82D4C0E8E00613011 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		045064CA2D4C115400613011 /* UserDefaultsOnboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsOnboarding.swift; sourceTree = "<group>"; };
 		1511B5222D2DB3BF009677CF /* DateConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConverter.swift; sourceTree = "<group>"; };
 		1518D5792CDBEFB700E9189A /* Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
 		1518D57B2CDBF03100E9189A /* TrackerCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategory.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 		1518D5852CEBBD8300E9189A /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				045064CA2D4C115400613011 /* UserDefaultsOnboarding.swift */,
 				1511B5222D2DB3BF009677CF /* DateConverter.swift */,
 				157672332D1B84D00092BFC2 /* WeekdayConverter.swift */,
 				157672312D1B80780092BFC2 /* UIColorMarshalling.swift */,
@@ -463,6 +466,7 @@
 				15B2D0262CB7283D004986A7 /* AppDelegate.swift in Sources */,
 				045064C72D4C0E5100613011 /* OnboardingPageViewController.swift in Sources */,
 				1518D59E2CEBD65100E9189A /* LinkCell.swift in Sources */,
+				045064CB2D4C116600613011 /* UserDefaultsOnboarding.swift in Sources */,
 				15B2D0272CB7283D004986A7 /* SceneDelegate.swift in Sources */,
 				1511B5232D2DB3CF009677CF /* DateConverter.swift in Sources */,
 				154A9BD92D1B6E5C00B24184 /* ColorCell.swift in Sources */,
