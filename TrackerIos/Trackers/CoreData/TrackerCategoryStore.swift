@@ -16,23 +16,24 @@ protocol TrackerCategoryStoreProtocol {
     var numberOfSections: Int { get }
     func numberOfItemsInSection(_ section: Int) -> Int
     func addCategory(_ name: String)
+    func categoryName(at indexPath: IndexPath) -> String
 }
 
 final class TrackerCategoryStore: NSObject {
     private weak var delegate: TrackerCategoryStoreDelegate?
-
+    
     private let dataController = CoreDataManager.shared
     private let context = CoreDataManager.shared.context
-
+    
     private var insertedIndices: [IndexPath] = []
     private var deletedIndices: [IndexPath] = []
     private var updatedIndices: [IndexPath] = []
     private var movedIndices: [(from: IndexPath, to: IndexPath)] = []
-
+    
     private lazy var fetchedResultsController: NSFetchedResultsController<TrackerCategoryCoreData> = {
         let fetchRequest = NSFetchRequest<TrackerCategoryCoreData>(entityName: "TrackerCategoryCoreData")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-
+        
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                                   managedObjectContext: context,
                                                                   sectionNameKeyPath: nil,
@@ -41,8 +42,8 @@ final class TrackerCategoryStore: NSObject {
         try? fetchedResultsController.performFetch()
         return fetchedResultsController
     }()
-
-    init(delegate: TrackerCategoryStoreDelegate) {
+    
+    init(delegate: TrackerCategoryStoreDelegate?) {
         self.delegate = delegate
     }
 }
@@ -52,15 +53,20 @@ extension TrackerCategoryStore: TrackerCategoryStoreProtocol {
     var numberOfSections: Int {
         fetchedResultsController.sections?.count ?? 0
     }
-
+    
     func numberOfItemsInSection(_ section: Int) -> Int {
         fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
-
+    
     func addCategory(_ name: String) {
         let category = TrackerCategoryCoreData(context: context)
         category.name = name
         dataController.saveContext()
+    }
+    
+    func categoryName(at indexPath: IndexPath) -> String {
+        let categoryCoreData = fetchedResultsController.object(at: indexPath)
+        return categoryCoreData.name ?? ""
     }
 }
 
@@ -72,7 +78,7 @@ extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
         updatedIndices.removeAll()
         movedIndices.removeAll()
     }
-
+    
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange anObject: Any,
                     at indexPath: IndexPath?,
@@ -99,7 +105,7 @@ extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
             break
         }
     }
-
+    
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         let update = TrackerCategoryStoreUpdate(
             insertedIndices: insertedIndices,

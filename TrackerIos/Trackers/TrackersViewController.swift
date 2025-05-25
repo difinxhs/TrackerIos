@@ -40,6 +40,8 @@ final class TrackersViewController: UIViewController {
     
     private let thumbnailStateView: UIView = {
         let view = ThumbnailStateView()
+        let text = "Что будем отслеживать?"
+        view.config(with: text)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     } ()
@@ -55,7 +57,7 @@ final class TrackersViewController: UIViewController {
         setupSearchInput()
         setupCollectionView()
         setupConstraints()
-//        collectionView.isHidden = true
+        //        collectionView.isHidden = true
         configureViewState()
         
         NotificationCenter.default.addObserver(self, selector: #selector(addNewTracker), name: TrackersViewController.notificationName, object: nil)
@@ -64,8 +66,10 @@ final class TrackersViewController: UIViewController {
     //MARK: Actions
     
     @objc private func addNewTracker(_ notification: Notification) {
-        guard let tracker = notification.object as? Tracker else { return }
-        trackerStore.addNewTracker(tracker)
+        guard let category = notification.object as? TrackerCategory,
+              let tracker = category.trackers.first else {return}
+        
+        trackerStore.addNewTracker(tracker, to: category)
     }
     
     @objc private func addTrackerButtonDidTap() {

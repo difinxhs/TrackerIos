@@ -36,6 +36,7 @@ final class NewTrackerVC: UIViewController {
     private let buttonStackView = UIStackView()
     
     private var name: String = ""
+    private var categoryName: String = ""
     private var days: Set<WeekDay>?
     private var color = UIColor.clear
     private var emoji = ""
@@ -108,7 +109,7 @@ final class NewTrackerVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "White")
         setupContentView()
         setupScroll()
         setupCancelButton()
@@ -177,7 +178,12 @@ final class NewTrackerVC: UIViewController {
     
     private func configureViewState() {
         let daysAreValid = days?.isEmpty == false || trackerType == .irregular
-        createButton.isEnabled = !name.isEmpty && daysAreValid && color != .clear && !emoji.isEmpty
+        createButton.isEnabled =
+        !name.isEmpty &&
+        !categoryName.isEmpty &&
+        daysAreValid &&
+        color != .clear &&
+        !emoji.isEmpty
     }
     
     private func setupButtonStackView() {
@@ -311,7 +317,8 @@ final class NewTrackerVC: UIViewController {
     
     @objc private func createButtonTapped() {
         let tracker = Tracker(id: UUID(), name: name, color: color, emoji: emoji, days: days)
-        NotificationCenter.default.post(name: TrackersViewController.notificationName, object: tracker)
+        let category = TrackerCategory(title: categoryName, trackers: [tracker])
+        NotificationCenter.default.post(name: TrackersViewController.notificationName, object: category)
         self.dismiss(animated: true)
     }
 }
@@ -353,7 +360,7 @@ extension NewTrackerVC: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
         tableView.applyCornerRadius(to: cell, at: indexPath)
-        cell.onTextChange = { [weak self] text in
+        cell.configure(placeholder: "Введите название трекера") { [weak self] text in
             self?.name = text
             self?.configureViewState()
         }
@@ -378,7 +385,7 @@ extension NewTrackerVC: UITableViewDataSource, UITableViewDelegate {
     private func getTitleAndCaptionForLinkCell(at row: Int) -> (String, String) {
         switch row {
         case 0:
-            return ("Категория", "Общая категория")
+            return ("Категория", categoryName)
         case 1:
             let caption: String
             if let days, days.count == WeekDay.allCases.count {
@@ -396,7 +403,12 @@ extension NewTrackerVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if indexPath.section == 1 && indexPath.row == 1 {
+        if indexPath.section == 1 && indexPath.row == 0 {
+            let viewModel = CategoriesViewModel()
+            viewModel.delegate = self
+            let viewController = CategoriesViewController(viewModel: viewModel, currentCategory: categoryName)
+            navigationController?.pushViewController(viewController, animated: true)
+        } else if indexPath.section == 1 && indexPath.row == 1 {
             let viewController = ScheduleViewController(days: days)
             viewController.onCompletion = { [weak self] result in
                 self?.days = result
@@ -571,3 +583,16 @@ extension NewTrackerVC: UICollectionViewDelegate {
         }
     }
 }
+
+// MARK: - CategorySelectionDelegate
+
+extension NewTrackerVC: CategorySelectionDelegate {
+    func didSelectCategory(_ name: String) {
+        categoryName = name
+        tableView.reloadData()
+        configureViewState()
+        
+        navigationController?.popViewController(animated: true)
+    }
+}
+
